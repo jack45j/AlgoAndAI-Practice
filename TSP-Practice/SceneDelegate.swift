@@ -2,15 +2,15 @@
 //  SceneDelegate.swift
 //  TSP-Practice
 //
-//  Created by 林翌埕-20001107 on 2022/9/18.
+//  Created by Benson Lin on 2022/9/18.
 //
 
 import UIKit
 
+@available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
