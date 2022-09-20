@@ -24,20 +24,20 @@ struct Placement: Hashable {
         return .init(x: x.toCGFloat, y: y.toCGFloat)
     }
     
-    func drawArrow(to: Self, from view: UIView, lineDash: [NSNumber] = [], isFinal: Bool) -> CALayer {
+    func drawArrow(to: Self, from view: UIView, lineDash: [NSNumber], opacity: Float, isFinal: Bool) -> CALayer {
         let p1 = self.point
         let p2 = to.point
         let arrow = UIBezierPath()
         arrow.addArrow(start: p1,
                       end: p2,
-                      pointerLineLength: 5.0,
+                      pointerLineLength: 10.0,
                       arrowAngle: CGFloat(Double.pi / 5))
         
         let arrowLayer = CAShapeLayer()
         let path = CGMutablePath()
-        arrowLayer.strokeColor = isFinal ? UIColor.red.cgColor : UIColor.lightGray.cgColor
+        arrowLayer.strokeColor = isFinal ? UIColor.red.cgColor : UIColor.black.cgColor
         arrowLayer.lineWidth = 1
-        arrowLayer.opacity = 1
+        arrowLayer.opacity = opacity
         if !lineDash.isEmpty {
             arrowLayer.lineDashPattern = lineDash
         }
@@ -55,13 +55,14 @@ struct Placement: Hashable {
 }
 
 extension Array where Element == Placement {
-    func drawTourPath(isFinal: Bool = false, from view: UIView) -> [CALayer] {
+    func drawTourPath(isFinal: Bool = false, isEnclosed: Bool = true, lineDash: [NSNumber] = [], opacity: Float = 1.0, from view: UIView) -> [CALayer] {
         var routeLayer: [CALayer] = []
         for idx in 0 ..< self.count {
             if idx + 1 >= self.count {
-                routeLayer.append(self[idx].drawArrow(to: self[0], from: view, isFinal: isFinal))
+                guard isEnclosed else { break }
+                routeLayer.append(self[idx].drawArrow(to: self[0], from: view, lineDash: lineDash, opacity: opacity, isFinal: isFinal))
             } else {
-                routeLayer.append(self[idx].drawArrow(to: self[idx+1], from: view, isFinal: isFinal))
+                routeLayer.append(self[idx].drawArrow(to: self[idx+1], from: view, lineDash: lineDash, opacity: opacity, isFinal: isFinal))
             }
         }
         return routeLayer
