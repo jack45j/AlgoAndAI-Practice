@@ -15,27 +15,27 @@ enum GeneticSelectionType {
 class GAViewController: UIViewController, PlacementGeneratable {
     
     // MARK: Population
-    var PLACEMENT_COUNT = 12
-    var POPULATION_SIZE = 80
-    let MAX_GENERATION: Int = 1000
+    var PLACEMENT_COUNT = 20
+    var POPULATION_SIZE = 30
+    let MAX_GENERATION: Int = 500
     
     var population: Population = []
     lazy var placements: [Placement] = generatePlacement(PLACEMENT_COUNT)
     var currentGen: Int = 0
     
     // MARK: Selection
-    let TOURNAMENT_PICK_SIZE = 30
+    let TOURNAMENT_PICK_SIZE = 5
     let ELITE_PERCENT_TO_PRESERVE: Float = 0.05
     
     // MARK: Mutation
     let MUTATE_RATE: Float = 0.01
-    let IS_MUTATE_PRESSURE = false
+    let IS_MUTATE_PRESSURE = true
     
     lazy var offsetMutateRate = MUTATE_RATE
     
     
     // MARK: Threshold
-    let IS_THRESHOLD_TO_STOP = true
+    let IS_THRESHOLD_TO_STOP = false
     let THRESHOLD_GEN = 100
     
     var currentContinuouslyGen = 0
@@ -164,12 +164,12 @@ class GAViewController: UIViewController, PlacementGeneratable {
         
         for _ in 1...POPULATION_SIZE - nextGen.count {
 
-            let chromosome1 = select(.rouletteWheel, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
-            let chromosome2 = select(.rouletteWheel, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
+            let chromosome1 = select(.tournament, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
+            let chromosome2 = select(.tournament, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
 
             var newChromosome = crossOver(chromosome1, chromosome2)
 
-            mutateIfNeeded(&newChromosome, mutateRate: MUTATE_RATE)
+            mutateIfNeeded(&newChromosome, mutateRate: MUTATE_RATE, isRandomMutation: false)
 
             nextGen.append(newChromosome)
         }
@@ -193,7 +193,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
     func select(_ type: GeneticSelectionType, from population: Population, tournamemtSize: Int) -> Chromosome {
         switch type {
         case .rouletteWheel:
-            return rouletteWheelSelect(from: population, tournamemtSize: tournamemtSize)
+            return population[Selection.rouletteWheelSelectIndex(from: population.map { $0.totalDistance }, tournamemtSize: tournamemtSize)]
         case .tournament:
             return tournamentSelect(from: population, tournamemtSize: tournamemtSize)
         }
@@ -275,7 +275,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
                 chromosome.inversionMutate()
             }
         } else {
-            chromosome.inversionMutate()
+            chromosome.swapMutate()
         }
     }
 }

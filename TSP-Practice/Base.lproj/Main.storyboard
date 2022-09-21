@@ -111,10 +111,25 @@
                     <view key="view" contentMode="scaleToFill" id="HUJ-sU-RaV">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Alh-1g-WOP">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="N5h-Ua-20O"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Alh-1g-WOP" firstAttribute="trailing" secondItem="HUJ-sU-RaV" secondAttribute="trailing" id="3IK-gC-knk"/>
+                            <constraint firstItem="Alh-1g-WOP" firstAttribute="bottom" secondItem="HUJ-sU-RaV" secondAttribute="bottom" id="6tm-hG-xWx"/>
+                            <constraint firstItem="Alh-1g-WOP" firstAttribute="leading" secondItem="HUJ-sU-RaV" secondAttribute="leading" id="jDB-60-TM1"/>
+                            <constraint firstItem="Alh-1g-WOP" firstAttribute="top" secondItem="HUJ-sU-RaV" secondAttribute="top" id="wZc-Sr-aH7"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="unz-40-Axw"/>
+                    <connections>
+                        <outlet property="routeView" destination="Alh-1g-WOP" id="UFg-w5-bwv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rNu-fE-BwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

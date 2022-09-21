@@ -25,7 +25,7 @@ extension PlacementGeneratable where Self: UIViewController {
                                                        size: CGSize(width: dotSize, height: dotSize)))
             let layer = CAShapeLayer()
             layer.path = dotBezier.cgPath
-            layer.fillColor = idx == 0 ? UIColor.red.cgColor : UIColor.green.cgColor
+            layer.fillColor = idx == 0 ? UIColor.purple.cgColor : UIColor.green.cgColor
             view.layer.addSublayer(layer)
             placement.layer = layer
             placements.append(placement)
@@ -41,10 +41,9 @@ extension PlacementGeneratable where Self: UIViewController {
                                                        size: CGSize(width: dotSize, height: dotSize)))
             let layer = CAShapeLayer()
             layer.path = dotBezier.cgPath
-            layer.fillColor = idx == 0 ? UIColor.red.cgColor : UIColor.green.cgColor
+            layer.fillColor = idx == 0 ? UIColor.purple.cgColor : UIColor.green.cgColor
             view.layer.addSublayer(layer)
             placement.layer = layer
         }
-        
     }
 }

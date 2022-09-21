@@ -36,7 +36,7 @@ struct Placement: Hashable {
         let arrowLayer = CAShapeLayer()
         let path = CGMutablePath()
         arrowLayer.strokeColor = isFinal ? UIColor.red.cgColor : UIColor.black.cgColor
-        arrowLayer.lineWidth = 1
+        arrowLayer.lineWidth = isFinal ? 3.0 : 1.0
         arrowLayer.opacity = opacity
         if !lineDash.isEmpty {
             arrowLayer.lineDashPattern = lineDash
