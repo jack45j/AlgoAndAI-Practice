@@ -10,25 +10,10 @@ import UIKit
 
 fileprivate typealias PheromoneRate = Float
 
-struct Solution: Equatable {
-    var placements: [Placement]
-    var totalDistance: Float {
-        var distance: Float = 0.0
-        for idx in 0..<placements.count {
-            if idx + 1 >= placements.count {
-                distance += placements[idx].distance(to: placements[0])
-            } else {
-                distance += placements[idx].distance(to: placements[idx + 1])
-            }
-        }
-        return distance
-    }
-}
-
 class ACOViewController: UIViewController, PlacementGeneratable {
     
     // MARK: Population
-    var PLACEMENT_COUNT: Int = 25
+    var PLACEMENT_COUNT: Int = 125
     lazy var placements: [Placement] = generatePlacement(PLACEMENT_COUNT)
     let ANT_COUNT: Int = 30
     let MAX_GENERATION: Int = 500
@@ -66,6 +51,7 @@ class ACOViewController: UIViewController, PlacementGeneratable {
             let vc = UIAlertController(title: "Use Cached placements?", message: nil, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Sure!", style: .default) { [weak self] _ in
                 guard let self = self else { return }
+                self.PLACEMENT_COUNT = cachedPlacements.count
                 self.placements.forEach { $0.layer?.removeFromSuperlayer() }
                 self.placements = cachedPlacements
                 self.drawPlacements(self.placements)
@@ -125,26 +111,41 @@ class ACOViewController: UIViewController, PlacementGeneratable {
         }
         
         operation?.qualityOfService = .default
-        for idx in 1...max(ANT_COUNT, PLACEMENT_COUNT) {
-//            print("[ACO] start Ant(\(idx))")
+        for _ in 1...max(ANT_COUNT, PLACEMENT_COUNT) {
             operation?.addBarrierBlock(nextAnt)
         }
         
         operation?.addBarrierBlock {
             if let currentBestSolution = self.currentBestSolution {
                 let best = ([currentBestSolution] + solutions).sorted(by: { $0.totalDistance < $1.totalDistance }).first
-                self.currentBestSolution = best
-                if self.currentBestSolution == best {
+                if self.currentBestSolution?.placements.map({ $0.id }) == best?.placements.map({ $0.id }) {
                     self.currentContinuouslyGen += 1
+                } else {
+                    self.currentContinuouslyGen = 0
                 }
+                self.currentBestSolution = best
             } else {
                 self.currentBestSolution = solutions.sorted(by: { $0.totalDistance < $1.totalDistance }).first
             }
         }
         
-        guard currentGen <= MAX_GENERATION || !(IS_THRESHOLD_TO_STOP && currentContinuouslyGen >= THRESHOLD_GEN) else {
+        guard currentGen <= MAX_GENERATION && !(IS_THRESHOLD_TO_STOP && currentContinuouslyGen >= THRESHOLD_GEN) else {
             operation?.cancelAllOperations()
             operation = nil
+            DispatchQueue.main.async {
+                let vc = UIAlertController(title: "Reached Max Generation.", message: nil, preferredStyle: .alert)
+                self.present(vc, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    vc.dismiss(animated: true)
+                }
+
+                if let currentBestRoute = self.currentBestSolution?.placements {
+                    self.routeView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+                    _ = currentBestRoute.drawTourPath(isFinal: true, from: self.routeView)
+                    self.view.setNeedsDisplay()
+                    self.view.layer.display()
+                }
+            }
             return
         }
         

@@ -7,6 +7,8 @@
 
 import UIKit
 
+fileprivate typealias Population = [Chromosome]
+
 enum GeneticSelectionType {
     case rouletteWheel
     case tournament
@@ -15,11 +17,11 @@ enum GeneticSelectionType {
 class GAViewController: UIViewController, PlacementGeneratable {
     
     // MARK: Population
-    var PLACEMENT_COUNT = 20
-    var POPULATION_SIZE = 30
+    var PLACEMENT_COUNT = 125
+    var POPULATION_SIZE = 50
     let MAX_GENERATION: Int = 500
     
-    var population: Population = []
+    private var population: Population = []
     lazy var placements: [Placement] = generatePlacement(PLACEMENT_COUNT)
     var currentGen: Int = 0
     
@@ -35,7 +37,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
     
     
     // MARK: Threshold
-    let IS_THRESHOLD_TO_STOP = false
+    let IS_THRESHOLD_TO_STOP = true
     let THRESHOLD_GEN = 100
     
     var currentContinuouslyGen = 0
@@ -58,6 +60,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
             let vc = UIAlertController(title: "Use Cached placements?", message: nil, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Sure!", style: .default) { [weak self] _ in
                 guard let self = self else { return }
+                self.PLACEMENT_COUNT = cachedPlacements.count
                 self.placements.forEach { $0.layer?.removeFromSuperlayer() }
                 self.placements = cachedPlacements
                 self.drawPlacements(self.placements)
@@ -169,7 +172,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
 
             var newChromosome = crossOver(chromosome1, chromosome2)
 
-            mutateIfNeeded(&newChromosome, mutateRate: MUTATE_RATE, isRandomMutation: false)
+            mutateIfNeeded(&newChromosome, mutateRate: MUTATE_RATE, isRandomMutation: true)
 
             nextGen.append(newChromosome)
         }
@@ -190,40 +193,13 @@ class GAViewController: UIViewController, PlacementGeneratable {
         return nextGen
     }
     
-    func select(_ type: GeneticSelectionType, from population: Population, tournamemtSize: Int) -> Chromosome {
+   private func select(_ type: GeneticSelectionType, from population: Population, tournamemtSize: Int) -> Chromosome {
         switch type {
         case .rouletteWheel:
-            return population[Selection.rouletteWheelSelectIndex(from: population.map { $0.totalDistance }, tournamemtSize: tournamemtSize)]
+            return population[Selection.rouletteWheelSelectIndex(from: population.filter { $0.isElite == false }.map { 1.0 / $0.totalDistance }, tournamemtSize: tournamemtSize)]
         case .tournament:
             return tournamentSelect(from: population, tournamemtSize: tournamemtSize)
         }
-    }
-    
-    private func rouletteWheelSelect(from population: Population, tournamemtSize: Int) -> Chromosome {
-        let notElite = population.filter { $0.isElite == false }
-        let summaryDistance = notElite.reduce(0.0, { $0 + $1.totalDistance })
-        let percentageList = notElite.map {
-            var percent = 100 * $0.totalDistance / summaryDistance
-            percent = 100.0 / Float(POPULATION_SIZE) + ((100.0 / Float(POPULATION_SIZE)) - percent)
-            return (percent: percent, distance: $0.totalDistance)
-        }
-        
-        var tournamemtChromosomes: Population = []
-        for _ in 1...tournamemtSize {
-            let randomNumber = Float.random(in: 0...100)
-            
-            for idx in 0..<percentageList.count {
-                if percentageList[0...idx].reduce(0.0, { $0 + $1.percent }) >= randomNumber {
-                    tournamemtChromosomes.append(population[idx])
-                    break
-                } else {
-                    continue
-                }
-            }
-        }
-        
-        guard let best = tournamemtChromosomes.sorted(by: { $0.totalDistance < $1.totalDistance }).first else { fatalError() }
-        return best
     }
     
     private func tournamentSelect(from population: Population, tournamemtSize: Int) -> Chromosome {

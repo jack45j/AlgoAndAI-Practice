@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */; };
 		DBA6A15E28DAFE540014D5D5 /* RouletteWheelSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15D28DAFE540014D5D5 /* RouletteWheelSelection.swift */; };
+		DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15F28DB57B60014D5D5 /* Solution.swift */; };
 		DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8D38728D6D81600005C10 /* AppDelegate.swift */; };
 		DBD8D38A28D6D81600005C10 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8D38928D6D81600005C10 /* SceneDelegate.swift */; };
 		DBD8D38C28D6D81600005C10 /* GAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8D38B28D6D81600005C10 /* GAViewController.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDwfaults+additions.swift"; sourceTree = "<group>"; };
 		DBA6A15D28DAFE540014D5D5 /* RouletteWheelSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteWheelSelection.swift; sourceTree = "<group>"; };
+		DBA6A15F28DB57B60014D5D5 /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
 		DBD8D38428D6D81600005C10 /* TSP-Practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TSP-Practice.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBD8D38728D6D81600005C10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBD8D38928D6D81600005C10 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DBA6A16328DB57EB0014D5D5 /* Type+imp */ = {
+			isa = PBXGroup;
+			children = (
+				DBA6A15F28DB57B60014D5D5 /* Solution.swift */,
+				DBD8D39B28D6F9F200005C10 /* Placement.swift */,
+				DBD8D39D28D6FA5300005C10 /* PlacementGeneratable.swift */,
+			);
+			path = "Type+imp";
+			sourceTree = "<group>";
+		};
 		DBD8D37B28D6D81600005C10 = {
 			isa = PBXGroup;
 			children = (
@@ -80,14 +92,13 @@
 				DBD8D38928D6D81600005C10 /* SceneDelegate.swift */,
 				DBD8D3B728D8765200005C10 /* ACO */,
 				DBD8D3B428D8553600005C10 /* GA */,
+				DBA6A16328DB57EB0014D5D5 /* Type+imp */,
+				DBD8D3A528D6FAED00005C10 /* utils */,
+				DBD8D3B828D8768100005C10 /* MainTableViewController.swift */,
 				DBD8D38D28D6D81600005C10 /* Main.storyboard */,
 				DBD8D39028D6D81800005C10 /* Assets.xcassets */,
 				DBD8D39228D6D81800005C10 /* LaunchScreen.storyboard */,
 				DBD8D39528D6D81800005C10 /* Info.plist */,
-				DBD8D39B28D6F9F200005C10 /* Placement.swift */,
-				DBD8D39D28D6FA5300005C10 /* PlacementGeneratable.swift */,
-				DBD8D3A528D6FAED00005C10 /* utils */,
-				DBD8D3B828D8768100005C10 /* MainTableViewController.swift */,
 			);
 			path = "TSP-Practice";
 			sourceTree = "<group>";
@@ -196,6 +207,7 @@
 				DBD8D38C28D6D81600005C10 /* GAViewController.swift in Sources */,
 				DBD8D3A728D7172A00005C10 /* Chromosome.swift in Sources */,
 				DBD8D3A028D6FAA100005C10 /* UIBezierPath+additions.swift in Sources */,
+				DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */,
 				DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */,
 				DBD8D3B628D8764D00005C10 /* ACOViewController.swift in Sources */,
 				DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */,

@@ -7,21 +7,9 @@
 
 import Foundation
 
-typealias Population = [Chromosome]
-struct Chromosome {
+struct Chromosome: SolutionType {
     var isElite = false
     var placements: [Placement]
-    var totalDistance: Float {
-        var distance: Float = 0.0
-        for idx in 0..<placements.count {
-            if idx + 1 >= placements.count {
-                distance += placements[idx].distance(to: placements[0])
-            } else {
-                distance += placements[idx].distance(to: placements[idx + 1])
-            }
-        }
-        return distance
-    }
     
     mutating func swapMutate(_ idx1: Int? = nil, _ idx2: Int? = nil) {
         let idx1 = idx1 ?? Int.random(in: 0..<placements.count)
@@ -59,7 +47,7 @@ struct Chromosome {
 }
 
 extension Array where Self.Element == Chromosome {
-    func getElite(_ rate: Float) -> Population {
+    func getElite(_ rate: Float) -> Self {
         guard Float(self.count) * rate >= 1 else { return [] }
         let eliteCount = Int(Float(self.count) * rate)
         
