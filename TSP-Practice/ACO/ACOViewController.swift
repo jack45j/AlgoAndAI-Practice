@@ -8,23 +8,23 @@
 import Foundation
 import UIKit
 
-fileprivate typealias PheromoneRate = Float
+fileprivate typealias PheromoneRate = Double
 
 class ACOViewController: UIViewController, PlacementGeneratable {
     
     // MARK: Population
-    var PLACEMENT_COUNT: Int = 125
+    var PLACEMENT_COUNT: Int = 20
     lazy var placements: [Placement] = generatePlacement(PLACEMENT_COUNT)
-    let ANT_COUNT: Int = 30
+    let ANT_COUNT: Int = 80
     let MAX_GENERATION: Int = 500
     
     // MARK: Pheromone
-    let PHEROMONE_DROP_AMOUNT: Float = 0.005
-    let EVAPORATE_RATE: Float = 0.2
+    let PHEROMONE_DROP_AMOUNT: Double = 0.001
+    let EVAPORATE_RATE: Double = 0.1
     
     // MARK: Priority
     let PHEROMONE_PRIORITY = 1.0
-    let DISTANCE_PRIORITY = 1.5
+    let DISTANCE_PRIORITY = 2.5
     
     // MARK: Threshold
     let IS_THRESHOLD_TO_STOP = true
@@ -133,7 +133,7 @@ class ACOViewController: UIViewController, PlacementGeneratable {
             operation?.cancelAllOperations()
             operation = nil
             DispatchQueue.main.async {
-                let vc = UIAlertController(title: "Reached Max Generation.", message: nil, preferredStyle: .alert)
+                let vc = UIAlertController(title: "Reached Max Generation. \(self.currentBestSolution?.totalDistance ?? 0.0)", message: nil, preferredStyle: .alert)
                 self.present(vc, animated: true)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     vc.dismiss(animated: true)
@@ -156,13 +156,14 @@ class ACOViewController: UIViewController, PlacementGeneratable {
     }
     
     private func selectNextPlacement(from place: Placement, remaining: [Placement]) -> Placement {
-        let distanceList = remaining.map { pow(1.0 / $0.distance(to: place), Float(DISTANCE_PRIORITY))  }
+        let distanceList = remaining.map { pow(1.0 / Double($0.distance(to: place)), Double(DISTANCE_PRIORITY))  }
         
-        let pheromoneList = remaining.map { pow(self.getPheromone(between: (place, $0)), Float(PHEROMONE_PRIORITY)) }
+        let pheromoneList = remaining.map { pow(self.getPheromone(between: (place, $0)), Double(PHEROMONE_PRIORITY)) }
         
         let fitnessList = zip(distanceList, pheromoneList).map { $0.0 * $0.1 }
         
-        return remaining[Selection.rouletteWheelSelectIndex(from: fitnessList, tournamemtSize: 1)]
+        guard let index = Selection.rouletteWheelSelect(from: fitnessList, tournamemtSize: 1)?.index else { fatalError() }
+        return remaining[index]
     }
     
     
@@ -181,7 +182,7 @@ class ACOViewController: UIViewController, PlacementGeneratable {
     }
     
     private func drawRoutes() {
-        let summaryPheromone = routes.reduce(0.0, { $0 + $1.value })
+        let totalPheromone = routes.values.reduce(0.0, +)
         
         DispatchQueue.main.async {
             self.routeView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -194,9 +195,10 @@ class ACOViewController: UIViewController, PlacementGeneratable {
                 let place1 = self.placements[idx]
                 let place2 = self.placements[idxR]
                 let pheromone = self.getPheromone(between: (place1, place2))
+                let opacity = pheromone / totalPheromone * Double(self.PLACEMENT_COUNT)
+                
                 DispatchQueue.main.async {
-                    _ = [place1, place2].drawTourPath(isEnclosed: false, lineDash: [3,5], opacity: pheromone / summaryPheromone * Float(self.PLACEMENT_COUNT - 1), from: self.routeView)
-                    self.routeView.layer.display()
+                    _ = [place1, place2].drawTourPath(isEnclosed: false, lineDash: [3,5], opacity: min(1.0, Float(opacity)), from: self.routeView)
                 }
             }
         }

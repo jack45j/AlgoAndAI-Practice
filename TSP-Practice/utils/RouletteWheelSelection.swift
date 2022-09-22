@@ -8,35 +8,36 @@
 import Foundation
 
 struct Selection {
-    static func rouletteWheelSelectIndex(from options: [Float], tournamemtSize: Int) -> Int {
+    typealias SolutionIndex<T: BinaryFloatingPoint> = (index: Int, option: T)
+    
+    static func rouletteWheelSelect<T: BinaryFloatingPoint>(from options: [T], tournamemtSize: Int) -> SolutionIndex<T>? {
+        
+        let options = options.enumerated().map { (index: $0.offset, option: $0.element) }
+        
         guard options.count > tournamemtSize else {
-            if let best = options.enumerated().map({ (index: $0.offset, value: $0.element) }).sorted(by: { $0.value < $1.value }).first?.index {
-                return best
-            } else {
-                fatalError()
-            }
+            return options.sorted(by: { $0.option < $1.option }).first
         }
         
-        let summary = options.reduce(0, +)
-        guard summary > 0.0 else { return Int.random(in: 0..<options.count)}
+        let summary = options.reduce(0, { $0 + $1.option })
+        guard summary > 0.0 else { return options.randomElement() }
         let percentageList = options.map {
-            return $0 / summary
+            return $0.option / summary
         }
         
-        var tournamemtIndexes: [Int] = []
-        for idx in 1...tournamemtSize {
+        var tournaments: [SolutionIndex<T>] = []
+        for _ in 1...tournamemtSize {
             let randomNumber = Float.random(in: 0 ... 1.0)
             
             for idx in 0..<percentageList.count {
-                if percentageList[0...idx].reduce(0.0, { $0 + $1 }) >= randomNumber {
-                    tournamemtIndexes.append(idx)
+                if percentageList[0...idx].reduce(0.0, { $0 + Float($1 ) }) >= randomNumber {
+                    tournaments.append(options[idx])
                     break
                 } else {
                     continue
                 }
             }
         }
-        guard let best = tournamemtIndexes.enumerated().map({ (index: $1, value: options[$0]) }).sorted(by: { $0.value < $1.value }).first else { fatalError() }
-        return best.index
+        
+        return tournaments.sorted(by: { $0.option > $1.option }).first
     }
 }

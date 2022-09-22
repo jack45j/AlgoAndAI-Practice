@@ -17,8 +17,8 @@ enum GeneticSelectionType {
 class GAViewController: UIViewController, PlacementGeneratable {
     
     // MARK: Population
-    var PLACEMENT_COUNT = 125
-    var POPULATION_SIZE = 50
+    var PLACEMENT_COUNT = 20
+    var POPULATION_SIZE = 40
     let MAX_GENERATION: Int = 500
     
     private var population: Population = []
@@ -26,7 +26,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
     var currentGen: Int = 0
     
     // MARK: Selection
-    let TOURNAMENT_PICK_SIZE = 5
+    let TOURNAMENT_PICK_SIZE = 10
     let ELITE_PERCENT_TO_PRESERVE: Float = 0.05
     
     // MARK: Mutation
@@ -113,7 +113,7 @@ class GAViewController: UIViewController, PlacementGeneratable {
                 self.operation?.cancelAllOperations()
                 self.operation = nil
                 DispatchQueue.main.async {
-                    let vc = UIAlertController(title: "Reached Max Generation.", message: nil, preferredStyle: .alert)
+                    let vc = UIAlertController(title: "Reached Max Generation. \(self.currentBestChromosome?.totalDistance ?? 0.0)", message: nil, preferredStyle: .alert)
                     self.present(vc, animated: true)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                         vc.dismiss(animated: true)
@@ -167,9 +167,9 @@ class GAViewController: UIViewController, PlacementGeneratable {
         
         for _ in 1...POPULATION_SIZE - nextGen.count {
 
-            let chromosome1 = select(.tournament, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
-            let chromosome2 = select(.tournament, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
-
+            let chromosome1 = select(.rouletteWheel, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
+            let chromosome2 = select(.rouletteWheel, from: prevPopulation, tournamemtSize: TOURNAMENT_PICK_SIZE)
+            
             var newChromosome = crossOver(chromosome1, chromosome2)
 
             mutateIfNeeded(&newChromosome, mutateRate: MUTATE_RATE, isRandomMutation: true)
@@ -188,7 +188,11 @@ class GAViewController: UIViewController, PlacementGeneratable {
             currentContinuouslyGen = 0
         }
 
-        currentBestChromosome = nextGenBest
+        guard let nextGenBestDistance = nextGenBest?.totalDistance,
+              let currentBestDistance = currentBestChromosome?.totalDistance else { return nextGen }
+        if nextGenBestDistance <= currentBestDistance {
+            currentBestChromosome = nextGenBest
+        }
 
         return nextGen
     }
@@ -196,7 +200,8 @@ class GAViewController: UIViewController, PlacementGeneratable {
    private func select(_ type: GeneticSelectionType, from population: Population, tournamemtSize: Int) -> Chromosome {
         switch type {
         case .rouletteWheel:
-            return population[Selection.rouletteWheelSelectIndex(from: population.filter { $0.isElite == false }.map { 1.0 / $0.totalDistance }, tournamemtSize: tournamemtSize)]
+            guard let index = Selection.rouletteWheelSelect(from: population.filter { $0.isElite == false }.map { 1.0 / $0.totalDistance }, tournamemtSize: tournamemtSize)?.index else { fatalError()}
+            return population[index]
         case .tournament:
             return tournamentSelect(from: population, tournamemtSize: tournamemtSize)
         }
