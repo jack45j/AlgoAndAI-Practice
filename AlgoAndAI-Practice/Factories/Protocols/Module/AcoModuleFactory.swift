@@ -9,5 +9,5 @@ import Foundation
 
 protocol AcoModuleFactory {
     func makeSettingModule()
-    func makeAcoPageModule() -> AcoViewController
+    func makeAcoPageModule(config: ACOConfiguration) -> AcoViewController
 }

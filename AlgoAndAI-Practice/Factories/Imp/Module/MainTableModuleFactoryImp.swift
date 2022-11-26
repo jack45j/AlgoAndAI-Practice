@@ -8,7 +8,5 @@
 import Foundation
 
 final class MainTableModuleFactoryImp: MainTableModuleFactory {
-    func makeAcoModule() -> AcoViewController {
-        return AcoViewController()
-    }
+    
 }

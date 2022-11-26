@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 protocol PlacementGeneratable {
-    var PLACEMENT_COUNT: Int { get set }
     var placements: [Placement] { get set }
 }
 

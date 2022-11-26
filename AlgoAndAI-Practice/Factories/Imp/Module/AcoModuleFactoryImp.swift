@@ -12,7 +12,7 @@ final class AcoModuleFactoryImp: AcoModuleFactory {
         
     }
     
-    func makeAcoPageModule() -> AcoViewController {
-        return AcoViewController()
+    func makeAcoPageModule(config: ACOConfiguration) -> AcoViewController {
+        return AcoViewController.instantiate(config: config)
     }
 }

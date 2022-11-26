@@ -7,8 +7,20 @@
 
 import Foundation
 
+typealias SolutionIndex<T: BinaryFloatingPoint> = (index: Int, option: T)
+
+enum Selections {
+    case rouletteWheel
+    
+    func select<T: BinaryFloatingPoint>(from options: [T], tournamemtSize: Int) -> SolutionIndex<T>? {
+        switch self {
+        case .rouletteWheel:    return Selection.rouletteWheelSelect(from: options, tournamemtSize: tournamemtSize)
+        }
+    }
+}
+
 struct Selection {
-    typealias SolutionIndex<T: BinaryFloatingPoint> = (index: Int, option: T)
+    
     
     static func rouletteWheelSelect<T: BinaryFloatingPoint>(from options: [T], tournamemtSize: Int) -> SolutionIndex<T>? {
         
@@ -26,10 +38,10 @@ struct Selection {
         
         var tournaments: [SolutionIndex<T>] = []
         for _ in 1...tournamemtSize {
-            let randomNumber = Float.random(in: 0 ... 1.0)
+            let randomNumber = Double.random(in: 0 ... 1.0)
             
             for idx in 0..<percentageList.count {
-                if percentageList[0...idx].reduce(0.0, { $0 + Float($1 ) }) >= randomNumber {
+                if percentageList[0...idx].reduce(0.0, { $0 + Double($1) }) >= randomNumber {
                     tournaments.append(options[idx])
                     break
                 } else {

@@ -9,12 +9,12 @@ import Foundation
 
 protocol SolutionType {
     var placements: [Placement] { get set }
-    var totalDistance: Float { get }
+    var totalDistance: Double { get }
 }
 
 extension SolutionType {
-    var totalDistance: Float {
-        var distance: Float = 0.0
+    var totalDistance: Double {
+        var distance: Double = 0.0
         for idx in 0..<placements.count {
             if idx + 1 >= placements.count {
                 distance += placements[idx].distance(to: placements[0])

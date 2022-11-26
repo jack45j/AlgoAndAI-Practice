@@ -38,7 +38,7 @@ final class MainTableCoordinator: BaseCoordinator {
     
     private func runAcoFlow() {
         let acoCoordinator = coordinatorFactory.makeAcoCoordinator(router: router)
-        acoCoordinator.finishFlow = { [unowned self] in
+        acoCoordinator.finishFlow = { [unowned self, weak acoCoordinator] in
             self.removeDependency(acoCoordinator)
         }
         

@@ -14,10 +14,10 @@ struct Placement: Hashable {
     var y: Float
     var layer: CALayer?
     
-    func distance(to otherPlace: Placement) -> Float {
-        let xDistance = abs(x - otherPlace.x)
-        let yDistance = abs(y - otherPlace.y)
-        return sqrtf( pow(xDistance, 2) + pow(yDistance, 2) )
+    func distance(to otherPlace: Placement) -> Double {
+        let xDistance = Double(abs(x - otherPlace.x))
+        let yDistance = Double(abs(y - otherPlace.y))
+        return sqrt( pow(xDistance, 2) + pow(yDistance, 2) )
     }
     
     var point: CGPoint {

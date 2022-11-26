@@ -24,8 +24,12 @@ final class AcoCoordinator: BaseCoordinator, AcoCoordinatorOutput {
     }
     
     private func showAcoFlow() {
-        let acoModule = factory.makeAcoPageModule()
-        acoModule.onFinish = finishFlow
+        let config = ACOConfiguration()
+        
+        let acoModule = factory.makeAcoPageModule(config: config)
+        acoModule.onFinish = { [unowned self] in
+            self.finishFlow?()
+        }
         router.push(acoModule)
     }
 }
