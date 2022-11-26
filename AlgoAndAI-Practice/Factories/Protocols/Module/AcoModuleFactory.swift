@@ -8,6 +8,6 @@
 import Foundation
 
 protocol AcoModuleFactory {
-    func makeSettingModule()
+    func makeSettingModule(config: Configurable) -> ConfigurationViewController
     func makeAcoPageModule(config: ACOConfiguration) -> AcoViewController
 }

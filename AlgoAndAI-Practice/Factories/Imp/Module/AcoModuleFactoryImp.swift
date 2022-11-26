@@ -8,8 +8,8 @@
 import Foundation
 
 final class AcoModuleFactoryImp: AcoModuleFactory {
-    func makeSettingModule() {
-        
+    func makeSettingModule(config: Configurable) -> ConfigurationViewController {
+        return ConfigurationViewController.instantiate(config: config)
     }
     
     func makeAcoPageModule(config: ACOConfiguration) -> AcoViewController {

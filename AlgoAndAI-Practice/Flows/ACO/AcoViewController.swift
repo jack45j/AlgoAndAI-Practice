@@ -11,30 +11,7 @@ import UIKit
 
 fileprivate typealias PheromoneRate = Double
 
-protocol ConfigurationType {}
-
-protocol GenerationLimitedType {
-    var MAX_GENERATION: Int { get set }
-}
-
-protocol PlacementSettingType {
-    var PLACEMENT_COUNT: Int { get set }
-}
-
-protocol ACOConfigurationType: ConfigurationType {
-    // Population
-    var ANT_COUNT: Int { get set }
-    
-    // Pheromone
-    var PHEROMONE_Q_AMOUNT: Double { get set }
-    var EVAPORATE_RATE: Double { get set }
-    
-    // Priority
-    var PHEROMONE_PRIORITY: Double { get set }
-    var DISTANCE_PRIORITY: Double { get set }
-}
-
-struct ACOConfiguration: ACOConfigurationType, PlacementSettingType, GenerationLimitedType {
+struct ACOConfiguration: ACOConfigurationType, GenerationLimitationConfigurable, PlacementsConfigurable {
     // Population
     var ANT_COUNT: Int = 50
     
@@ -47,18 +24,16 @@ struct ACOConfiguration: ACOConfigurationType, PlacementSettingType, GenerationL
     var DISTANCE_PRIORITY: Double = 2.0 // β beta
     
     // placements
-    var PLACEMENT_COUNT: Int = 30
+    var PLACEMENT_COUNT: Int = 15
+    var USE_PREVIOUS: Bool = true
     
     // genertaion
     var MAX_GENERATION: Int = 5000
 }
 
-protocol Configurable {
-    associatedtype T: ConfigurationType
-    var config: T! { get set }
-}
 
-final class AcoViewController: UIViewController, Configurable, AcoViewControllerOutput, PlacementGeneratable {
+
+final class AcoViewController: UIViewController, ConfigurableType, AcoViewControllerOutput, PlacementGeneratable {
     
     var onFinish: (() -> Void)?
     
@@ -97,37 +72,20 @@ final class AcoViewController: UIViewController, Configurable, AcoViewController
         return view
     }()
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .white
         
-        if let cachedPoints = try? UserDefaults.standard.get(objectType: [CGPoint].self, forKey: "Controller.Placements") {
+        if config.USE_PREVIOUS {
+            guard let cachedPoints = try? UserDefaults.standard.get(objectType: [CGPoint].self, forKey: "Controller.Placements") else { fatalError() }
             let cachedPlacements = cachedPoints.map { Placement(x: $0.x.toFloat, y: $0.y.toFloat) }
-            
-            let vc = UIAlertController(title: "Use Cached placements?", message: nil, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Sure!", style: .default) { [weak self] _ in
-                guard let self = self else { return }
-                self.config?.PLACEMENT_COUNT = cachedPlacements.count
-                self.placements.forEach { $0.layer?.removeFromSuperlayer() }
-                self.placements = cachedPlacements
-                self.drawPlacements(self.placements)
-                self.nextInteration()
-            }
-            
-            let deniedAction = UIAlertAction(title: "Nope!", style: .cancel) { [weak self] _ in
-                guard let self = self else { return }
-                self.placements = self.generatePlacement(self.config.PLACEMENT_COUNT)
-                try? UserDefaults.standard.set(object: self.placements.map { CGPoint(x: $0.x.toCGFloat, y: $0.y.toCGFloat) }, forKey: "Controller.Placements")
-                
-                self.nextInteration()
-            }
-            
-            vc.addAction(okAction)
-            vc.addAction(deniedAction)
-            
-            present(vc, animated: true)
+            self.placements.forEach { $0.layer?.removeFromSuperlayer() }
+            self.placements = cachedPlacements
+            self.drawPlacements(self.placements)
+            self.nextInteration()
         } else {
             try? UserDefaults.standard.set(object: self.placements.map { CGPoint(x: $0.x.toCGFloat, y: $0.y.toCGFloat) }, forKey: "Controller.Placements")
+            self.nextInteration()
         }
     }
     

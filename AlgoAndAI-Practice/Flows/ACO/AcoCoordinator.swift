@@ -26,10 +26,17 @@ final class AcoCoordinator: BaseCoordinator, AcoCoordinatorOutput {
     private func showAcoFlow() {
         let config = ACOConfiguration()
         
-        let acoModule = factory.makeAcoPageModule(config: config)
-        acoModule.onFinish = { [unowned self] in
+        let configModule = factory.makeSettingModule(config: config)
+        configModule.onConfirm = { [unowned self] configurations in
+            guard let config = configurations as? ACOConfiguration else { fatalError() }
+            let acoModule = factory.makeAcoPageModule(config: config)
+            self.router.push(acoModule)
+        }
+        
+        configModule.onFinish = { [unowned self] in
             self.finishFlow?()
         }
-        router.push(acoModule)
+        
+        router.push(configModule)
     }
 }

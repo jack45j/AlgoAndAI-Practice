@@ -26,9 +26,9 @@ final class MainTableCoordinator: BaseCoordinator {
     private func showList() {
         let mainTableListController = MainTableViewController.instantiate()
         
-        mainTableListController.onSelectFlow = { [weak self] flow in
+        mainTableListController.onSelectFlow = { [unowned self] flow in
             switch flow {
-            case .aco:      self?.runAcoFlow()
+            case .aco:      self.runAcoFlow()
             case .gene:     return
             }
         }
@@ -38,12 +38,11 @@ final class MainTableCoordinator: BaseCoordinator {
     
     private func runAcoFlow() {
         let acoCoordinator = coordinatorFactory.makeAcoCoordinator(router: router)
-        acoCoordinator.finishFlow = { [unowned self, weak acoCoordinator] in
-            self.removeDependency(acoCoordinator)
+        acoCoordinator.finishFlow = { [weak self, weak acoCoordinator] in
+            self?.removeDependency(acoCoordinator)
         }
         
         addDependency(acoCoordinator)
-        
         acoCoordinator.start()
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Configuration View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="ConfigurationViewController" customModule="AlgoAndAI_Practice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FfT-yj-Onk">
+                                <rect key="frame" x="0.0" y="59" width="393" height="716"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrA-kk-xbK">
+                                <rect key="frame" x="162.66666666666666" y="783" width="67.666666666666657" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Apply"/>
+                                <connections>
+                                    <action selector="didTouchApplyButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="aXB-NC-uXB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FfT-yj-Onk" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="1jg-IS-8QD"/>
+                            <constraint firstItem="FfT-yj-Onk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="3vV-Sg-hpk"/>
+                            <constraint firstItem="NrA-kk-xbK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="7MS-tL-EEE"/>
+                            <constraint firstItem="FfT-yj-Onk" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Flm-tU-Sfr"/>
+                            <constraint firstItem="NrA-kk-xbK" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="YrD-xU-fiG"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NrA-kk-xbK" secondAttribute="trailing" constant="16" id="cfk-PH-UGg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="NrA-kk-xbK" secondAttribute="bottom" id="gp7-yV-7Yl"/>
+                            <constraint firstItem="NrA-kk-xbK" firstAttribute="top" secondItem="FfT-yj-Onk" secondAttribute="bottom" constant="8" id="xck-ed-nvH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="applyButton" destination="NrA-kk-xbK" id="FAL-rm-zGA"/>
+                        <outlet property="tableView" destination="FfT-yj-Onk" id="Bm7-dg-ucu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="135.1145038167939" y="24.647887323943664"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

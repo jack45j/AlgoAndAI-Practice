@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "bemcheckbox",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Boris-Em/BEMCheckBox",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a3292ebae9f0c2737b0c90281219dced2ce51ac8"
+      }
+    },
+    {
       "identity" : "reusable",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AliSoftware/Reusable",
