@@ -11,28 +11,6 @@ import UIKit
 
 fileprivate typealias PheromoneRate = Double
 
-struct ACOConfiguration: ACOConfigurationType, GenerationLimitationConfigurable, PlacementsConfigurable {
-    // Population
-    var ANT_COUNT: Int = 50
-    
-    // Pheromone
-    var PHEROMONE_Q_AMOUNT: Double = 1.0 // Q
-    var EVAPORATE_RATE: Double = 0.1  // ρ rho
-     
-    // Priority
-    var PHEROMONE_PRIORITY: Double = 1.0 // α alpha
-    var DISTANCE_PRIORITY: Double = 2.0 // β beta
-    
-    // placements
-    var PLACEMENT_COUNT: Int = 15
-    var USE_PREVIOUS: Bool = true
-    
-    // genertaion
-    var MAX_GENERATION: Int = 5000
-}
-
-
-
 final class AcoViewController: UIViewController, ConfigurableType, AcoViewControllerOutput, PlacementGeneratable {
     
     var onFinish: (() -> Void)?
@@ -46,10 +24,10 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
     typealias T = ACOConfiguration
     var config: T!
     
-    lazy var placements: [Placement] = generatePlacement(config.PLACEMENT_COUNT)
+    var placements: [Placement] = []
     
     // MARK: Threshold
-    let IS_THRESHOLD_TO_STOP = true
+    let IS_THRESHOLD_TO_STOP = false
     let THRESHOLD_GEN = 100
     
     var currentContinuouslyGen = 0
@@ -84,6 +62,8 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
             self.drawPlacements(self.placements)
             self.nextInteration()
         } else {
+            let placements = generatePlacement(config.PLACEMENT_COUNT)
+            self.placements = placements
             try? UserDefaults.standard.set(object: self.placements.map { CGPoint(x: $0.x.toCGFloat, y: $0.y.toCGFloat) }, forKey: "Controller.Placements")
             self.nextInteration()
         }
@@ -201,13 +181,18 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
                 let placeA = solution.placements[leftIdx]
                 let placeB = solution.placements[rightIdx]
                 let route = Set([placeA, placeB])
-                let solutionTao = Double(config.PLACEMENT_COUNT) * 2.0 * config.PHEROMONE_Q_AMOUNT / Double(solution.totalDistance)
-                routes[route] = getPheromone(between: (place1: placeA, place2: placeB)) + solutionTao
+                let solutiontau = Double(config.PLACEMENT_COUNT) * 2.0 * config.PHEROMONE_Q_AMOUNT / Double(solution.totalDistance)
+                routes[route] = getPheromone(between: (place1: placeA, place2: placeB)) + solutiontau
+                
+                if leftIdx == 0 && rightIdx == solution.placements.count - 1 {
+                    break
+                }
                 
                 leftIdx += 1
                 rightIdx += 1
                 if rightIdx >= solution.placements.count {
-                    rightIdx = 0
+                    rightIdx -= 1
+                    leftIdx = 0
                 }
             }
         }
@@ -232,7 +217,7 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
                 let opacity = pheromone / totalPheromone * Double(self.config.PLACEMENT_COUNT)
                 
                 DispatchQueue.main.async {
-                    _ = [place1, place2].drawTourPath(isEnclosed: false, lineDash: [3,5], opacity: min(1.0, Float(opacity)), from: self.routeView)
+                    _ = [place1, place2].drawTourPath(isEnclosed: false, lineDash: [3,5], opacity: min(0.75, Float(opacity)), from: self.routeView)
                 }
             }
         }

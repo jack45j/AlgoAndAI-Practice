@@ -35,6 +35,11 @@
 		46DB96D929326B7300CC8889 /* PlacementConfigTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96D729326B7300CC8889 /* PlacementConfigTableViewCell.xib */; };
 		46DB96DD2932749F00CC8889 /* BEMCheckBox in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB96DC2932749F00CC8889 /* BEMCheckBox */; };
 		46DB96DF293285B200CC8889 /* GlobalConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96DE293285B200CC8889 /* GlobalConfigurations.swift */; };
+		46DB96E12932A9C400CC8889 /* ACOConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96E02932A9C400CC8889 /* ACOConfiguration.swift */; };
+		46DB96E42932B5E700CC8889 /* GenerationLimitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96E22932B5E700CC8889 /* GenerationLimitationTableViewCell.swift */; };
+		46DB96E52932B5E700CC8889 /* GenerationLimitationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */; };
+		46DB96E829333A5E00CC8889 /* ACOConfigurationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */; };
+		46DB96E929333A5E00CC8889 /* ACOConfigurationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */; };
 		DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */; };
 		DBA6A15E28DAFE540014D5D5 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15D28DAFE540014D5D5 /* Selection.swift */; };
 		DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15F28DB57B60014D5D5 /* Solution.swift */; };
@@ -80,6 +85,11 @@
 		46DB96D629326B7300CC8889 /* PlacementConfigTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementConfigTableViewCell.swift; sourceTree = "<group>"; };
 		46DB96D729326B7300CC8889 /* PlacementConfigTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlacementConfigTableViewCell.xib; sourceTree = "<group>"; };
 		46DB96DE293285B200CC8889 /* GlobalConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConfigurations.swift; sourceTree = "<group>"; };
+		46DB96E02932A9C400CC8889 /* ACOConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACOConfiguration.swift; sourceTree = "<group>"; };
+		46DB96E22932B5E700CC8889 /* GenerationLimitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationLimitationTableViewCell.swift; sourceTree = "<group>"; };
+		46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenerationLimitationTableViewCell.xib; sourceTree = "<group>"; };
+		46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACOConfigurationTableViewCell.swift; sourceTree = "<group>"; };
+		46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACOConfigurationTableViewCell.xib; sourceTree = "<group>"; };
 		DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDwfaults+additions.swift"; sourceTree = "<group>"; };
 		DBA6A15D28DAFE540014D5D5 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		DBA6A15F28DB57B60014D5D5 /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
@@ -242,6 +252,10 @@
 			children = (
 				46DB96D629326B7300CC8889 /* PlacementConfigTableViewCell.swift */,
 				46DB96D729326B7300CC8889 /* PlacementConfigTableViewCell.xib */,
+				46DB96E22932B5E700CC8889 /* GenerationLimitationTableViewCell.swift */,
+				46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */,
+				46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */,
+				46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -319,6 +333,7 @@
 				463CA17A292A37D6009F6488 /* AcoViewControllerOutput.swift */,
 				463CA16A292A291F009F6488 /* AcoCoordinator.swift */,
 				463CA178292A34FC009F6488 /* AcoCoordinatorOutput.swift */,
+				46DB96E02932A9C400CC8889 /* ACOConfiguration.swift */,
 			);
 			path = ACO;
 			sourceTree = "<group>";
@@ -391,9 +406,11 @@
 			files = (
 				46DB96D929326B7300CC8889 /* PlacementConfigTableViewCell.xib in Resources */,
 				46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */,
+				46DB96E929333A5E00CC8889 /* ACOConfigurationTableViewCell.xib in Resources */,
 				DBD8D39428D6D81800005C10 /* LaunchScreen.storyboard in Resources */,
 				DBD8D39128D6D81800005C10 /* Assets.xcassets in Resources */,
 				DBD8D38F28D6D81600005C10 /* MainTableViewController.storyboard in Resources */,
+				46DB96E52932B5E700CC8889 /* GenerationLimitationTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +438,7 @@
 				463CA16F292A2CA6009F6488 /* MainTableViewOutput.swift in Sources */,
 				DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */,
 				463CA17F292A3935009F6488 /* AcoModuleFactoryImp.swift in Sources */,
+				46DB96E42932B5E700CC8889 /* GenerationLimitationTableViewCell.swift in Sources */,
 				463CA16D292A297A009F6488 /* AcoModuleFactory.swift in Sources */,
 				DBD8D3B628D8764D00005C10 /* AcoViewController.swift in Sources */,
 				DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */,
@@ -428,8 +446,10 @@
 				463CA15C292A2170009F6488 /* MainTableCoordinator.swift in Sources */,
 				463CA17B292A37D6009F6488 /* AcoViewControllerOutput.swift in Sources */,
 				463CA16B292A291F009F6488 /* AcoCoordinator.swift in Sources */,
+				46DB96E12932A9C400CC8889 /* ACOConfiguration.swift in Sources */,
 				463CA150292A1F63009F6488 /* Router.swift in Sources */,
 				463CA173292A2FA0009F6488 /* MainTableModuleFactoryImp.swift in Sources */,
+				46DB96E829333A5E00CC8889 /* ACOConfigurationTableViewCell.swift in Sources */,
 				DBD8D39C28D6F9F200005C10 /* Placement.swift in Sources */,
 				463CA154292A1FCF009F6488 /* MainTableModuleFactory.swift in Sources */,
 				463CA171292A2D2F009F6488 /* FlowsModel.swift in Sources */,

@@ -9,6 +9,7 @@ import UIKit
 import Reusable
 import BEMCheckBox
 
+// TODO: flow optimization
 class PlacementConfigTableViewCell: UITableViewCell, NibReusable {
     
     @IBOutlet weak var placementsSlider: UISlider!
@@ -32,7 +33,6 @@ class PlacementConfigTableViewCell: UITableViewCell, NibReusable {
     func setDefaultStatus(isUsePrevious: Bool, placementsCount: Int) {
         usePreviousCheckBox.setOn(isUsePrevious)
         placementsSliderValueLabel.text = "\(placementsCount)"
-//        placementsSlider.setValue(Float(placementsCount), animated: false)
         updateSliderStatus(to: !isUsePrevious)
         validatePlacements(GlobalConfigurations.shared.placements)
         
@@ -43,9 +43,9 @@ class PlacementConfigTableViewCell: UITableViewCell, NibReusable {
     }
     
     fileprivate func updateSliderStatus(to isEnable: Bool) {
+        placementsSlider.alpha = isEnable ? 1.0 : 0.5
         placementsSlider.isEnabled = isEnable
-        placementsSlider.layer.opacity = isEnable ? 1.0 : 0.5
-        placementsSlider.layer.display()
+        placementsSlider.layoutIfNeeded()
     }
     
     fileprivate func validatePlacements(_ placements: [CGPoint]) {
@@ -79,7 +79,7 @@ extension PlacementConfigTableViewCell: BEMCheckBoxDelegate {
             placementsSliderValueLabel.text = "\(placements.count)"
             placementsSlider.setValue(Float(placements.count), animated: true)
         }
-        
+        onChangePlacementsCount?(placements.count)
         updateSliderStatus(to: !usePreviousCheckBox.on)
     }
 }

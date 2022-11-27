@@ -62,8 +62,8 @@ class ConfigurationViewController: UIViewController, StoryboardBased, Configurat
     
     private func registerCells() {
         tableView.register(cellType: PlacementConfigTableViewCell.self)
-//        tableView.register(cellType: PlacementConfigTableViewCell.self)
-//        tableView.register(cellType: PlacementConfigTableViewCell.self)
+        tableView.register(cellType: GenerationLimitationTableViewCell.self)
+        tableView.register(cellType: ACOConfigurationTableViewCell.self)
     }
     
     private func normalizeConfigurations() {
@@ -108,7 +108,12 @@ extension ConfigurationViewController: UITableViewDataSource {
         let type = dataSource[indexPath.section]
         switch type {
         case .generation:
-            return .init()
+            guard config as? GenerationLimitationConfigurable != nil else { fatalError() }
+            let generationLimitationCell: GenerationLimitationTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            if let config = self.config as? GenerationLimitationConfigurable {
+                generationLimitationCell.setDefaultState(config.MAX_GENERATION)
+            }
+            return generationLimitationCell
         case .placements:
             guard config as? PlacementsConfigurable != nil else { fatalError() }
             let placementConfigCell: PlacementConfigTableViewCell = tableView.dequeueReusableCell(for: indexPath)
@@ -132,7 +137,14 @@ extension ConfigurationViewController: UITableViewDataSource {
             
             return placementConfigCell
         case .aco:
-            return .init()
+            let acoConfigCell: ACOConfigurationTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            if let config = self.config as? ACOConfigurationType {
+                acoConfigCell.setDefaultState(colony: config.ANT_COUNT,
+                                              tau: config.EVAPORATE_RATE,
+                                              alpha: config.PHEROMONE_PRIORITY,
+                                              beta: config.DISTANCE_PRIORITY)
+            }
+            return acoConfigCell
         }
     }
 }
