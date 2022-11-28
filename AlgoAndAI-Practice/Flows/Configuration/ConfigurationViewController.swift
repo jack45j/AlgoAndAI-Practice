@@ -138,6 +138,35 @@ extension ConfigurationViewController: UITableViewDataSource {
             return placementConfigCell
         case .aco:
             let acoConfigCell: ACOConfigurationTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            
+            acoConfigCell.onColonySizeDidChange = { [unowned self] size in
+                if var config = self.config as? ACOConfigurationType {
+                    config.ANT_COUNT = size
+                    self.config = config
+                }
+            }
+            
+            acoConfigCell.onTauValueDidChange = { [unowned self] tau in
+                if var config = self.config as? ACOConfigurationType {
+                    config.EVAPORATE_RATE = Double(tau)
+                    self.config = config
+                }
+            }
+            
+            acoConfigCell.onAlphaValueDidChange = { [unowned self] alpha in
+                if var config = self.config as? ACOConfigurationType {
+                    config.PHEROMONE_PRIORITY = Double(alpha)
+                    self.config = config
+                }
+            }
+            
+            acoConfigCell.onBetaValueDidChange = { [unowned self] beta in
+                if var config = self.config as? ACOConfigurationType {
+                    config.DISTANCE_PRIORITY = Double(beta)
+                    self.config = config
+                }
+            }
+            
             if let config = self.config as? ACOConfigurationType {
                 acoConfigCell.setDefaultState(colony: config.ANT_COUNT,
                                               tau: config.EVAPORATE_RATE,

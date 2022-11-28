@@ -9,7 +9,7 @@ import Foundation
 
 struct ACOConfiguration: ACOConfigurationType, GenerationLimitationConfigurable, PlacementsConfigurable {
     // Population
-    var ANT_COUNT: Int = 30
+    var ANT_COUNT: Int = 50
     
     // Pheromone
     var PHEROMONE_Q_AMOUNT: Double = 1.0 // Q

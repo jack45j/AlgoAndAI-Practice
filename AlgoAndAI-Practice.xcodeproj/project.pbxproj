@@ -239,10 +239,10 @@
 		46DB96D129325EF200CC8889 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				46DB96DA29326B7700CC8889 /* Cell */,
 				46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */,
 				46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */,
 				46DB96D22932610D00CC8889 /* Configurable.swift */,
-				46DB96DA29326B7700CC8889 /* Cell */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
