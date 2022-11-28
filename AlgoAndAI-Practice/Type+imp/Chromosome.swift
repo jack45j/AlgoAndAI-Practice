@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Chromosome: SolutionType {
+struct Chromosome: SolutionType, Equatable {
+    var id = UUID()
     var isElite = false
     var placements: [Placement]
     

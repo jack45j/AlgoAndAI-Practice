@@ -20,6 +20,11 @@ protocol GenerationLimitationConfigurable: Configurable {
 protocol PlacementsConfigurable: Configurable {
     var PLACEMENT_COUNT: Int { get set }
     var USE_PREVIOUS: Bool { get set }
+    var USE_PENTAGON: Bool { get set }
+}
+
+protocol SelectionConfigurable: Configurable {
+    var SELECTION: Selection { get set }
 }
 
 protocol ACOConfigurationType: Configurable {
@@ -33,4 +38,18 @@ protocol ACOConfigurationType: Configurable {
     // Priority
     var PHEROMONE_PRIORITY: Double { get set }
     var DISTANCE_PRIORITY: Double { get set }
+}
+
+protocol GAConfigurationType: Configurable {
+    // Population
+    var POPULATION_SIZE: Int { get set }
+    
+    // Mutation
+    var MUTATE_RATE: Double { get set }
+    
+    //Elite
+    var ELITE_PERCENT_TO_PRESERVE: Double { get set }
+    
+    // cross over
+    var CROSSOVER_RATE: Double { get set }
 }

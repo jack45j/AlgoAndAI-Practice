@@ -2,26 +2,24 @@
 //  RouletteWheelSelection.swift
 //  AlgoAndAI-Practice
 //
-//  Created by 林翌埕-20001107 on 2022/9/21.
+//  Created by Benson Lin on 2022/9/21.
 //
 
 import Foundation
 
 typealias SolutionIndex<T: BinaryFloatingPoint> = (index: Int, option: T)
 
-enum Selections {
-    case rouletteWheel
+enum Selection {
+    case rouletteWheel(pickSize: Int)
     
     func select<T: BinaryFloatingPoint>(from options: [T], tournamemtSize: Int) -> SolutionIndex<T>? {
         switch self {
-        case .rouletteWheel:    return Selection.rouletteWheelSelect(from: options, tournamemtSize: tournamemtSize)
+        case .rouletteWheel(let size):    return Selections.rouletteWheelSelect(from: options, tournamemtSize: size)
         }
     }
 }
 
-struct Selection {
-    
-    
+struct Selections {
     static func rouletteWheelSelect<T: BinaryFloatingPoint>(from options: [T], tournamemtSize: Int) -> SolutionIndex<T>? {
         
         let options = options.enumerated().map { (index: $0.offset, option: $0.element) }

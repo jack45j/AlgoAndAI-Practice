@@ -9,11 +9,6 @@ import UIKit
 import Reusable
 import Foundation
 
-protocol ConfigurationViewControllerOutput {
-    var onConfirm: ((Configurable) -> Void)? { get set }
-    var onFinish: (() -> Void)? { get set }
-}
-
 fileprivate enum Configurations {
     case generation
     case placements
@@ -110,6 +105,14 @@ extension ConfigurationViewController: UITableViewDataSource {
         case .generation:
             guard config as? GenerationLimitationConfigurable != nil else { fatalError() }
             let generationLimitationCell: GenerationLimitationTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            
+            generationLimitationCell.onLimitationChangeTo = { [unowned self] limitation in
+                if var config = self.config as? GenerationLimitationConfigurable {
+                    config.MAX_GENERATION = limitation
+                    self.config = config
+                }
+            }
+            
             if let config = self.config as? GenerationLimitationConfigurable {
                 generationLimitationCell.setDefaultState(config.MAX_GENERATION)
             }
@@ -131,8 +134,15 @@ extension ConfigurationViewController: UITableViewDataSource {
                 }
             }
             
+            placementConfigCell.onChangeShouldUsePentagonTo = { [unowned self] isUse in
+                if var config = self.config as? PlacementsConfigurable {
+                    config.USE_PENTAGON = isUse
+                    self.config = config
+                }
+            }
+            
             if let config = self.config as? PlacementsConfigurable {
-                placementConfigCell.setDefaultStatus(isUsePrevious: config.USE_PREVIOUS, placementsCount: config.PLACEMENT_COUNT)
+                placementConfigCell.setDefaultStatus(default: config)
             }
             
             return placementConfigCell

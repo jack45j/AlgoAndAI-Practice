@@ -26,6 +26,13 @@ enum FlowsModel: CaseIterable {
         ]
     }
     
+    static var sectionsTitle: [String] {
+        return [
+            "Traveling Salesman Problem",
+            "Maze"
+        ]
+    }
+    
     static func getFlowData(from indexPath: IndexPath) -> Self {
         return Self.sections[indexPath.section][indexPath.row]
     }

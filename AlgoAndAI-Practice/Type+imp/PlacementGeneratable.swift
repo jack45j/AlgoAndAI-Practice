@@ -45,4 +45,34 @@ extension PlacementGeneratable where Self: UIViewController {
             placement.layer = layer
         }
     }
+    
+    func generagePentagon() -> [Placement] {
+        var placements: [Placement] = []
+        let pentagonSize = min(view.frame.width, view.frame.height) - 40
+        let centerPoint = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        func gen(radius: CGFloat, degreeOffset: CGFloat) {
+            var degree = 0.0 + degreeOffset
+            for _ in 1...5 {
+                let point = centerPoint.coordinateOfCircle(radius: Float(radius) / 2,
+                                                           angle: Float(degree))
+                placements.append(Placement(x: Float(centerPoint.x + point.x),
+                                            y: Float(centerPoint.y + point.y)))
+                degree += 72
+            }
+        }
+        gen(radius: pentagonSize, degreeOffset: 0)
+        gen(radius: pentagonSize / 2, degreeOffset: 0)
+        gen(radius: pentagonSize / 4, degreeOffset: 180)
+        return placements
+    }
+}
+
+extension CGPoint {
+    func coordinateOfCircle(radius: Float, angle: Float) -> CGPoint {
+        let offsetAngle = angle - 90
+        let x = (radius * cos(offsetAngle * Float.pi / 180) * 100).rounded(.toNearestOrEven) / 100.0
+        let y = (radius * sin(offsetAngle * Float.pi / 180) * 100.0).rounded(.toNearestOrEven) / 100.0
+        
+        return CGPoint(x: CGFloat(x), y: CGFloat(y))
+    }
 }

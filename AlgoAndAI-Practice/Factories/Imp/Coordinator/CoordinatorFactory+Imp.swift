@@ -18,6 +18,10 @@ final class CoordinatorFactoryImp: AppCoordinatorFactory, MainTableCoordinatorFa
         return AcoCoordinator(factory: AcoModuleFactoryImp(), router: router)
     }
     
+    func makeGaCoordinator(router: Router) -> GACoordinator {
+        return GACoordinator(factory: GaModuleFactoryImp(), router: router)
+    }
+    
     private func router(_ navController: UINavigationController?) -> Router {
         return RouterImp(rootController: navigationController(navController))
     }

@@ -28,6 +28,7 @@ class GenerationLimitationTableViewCell: UITableViewCell, NibReusable {
     @objc func generationLimitationSliderValueDidChange(slider: UISlider, event: UIEvent) {
         let rounded = (slider.value / 100).rounded(.toNearestOrEven) * 100
         generationLimitationSliderValueLabel.text = "\(Int(rounded))"
+        onLimitationChangeTo?(Int(rounded))
         if event.allTouches?.first?.phase == .ended {
             slider.setValue(rounded, animated: true)
         }

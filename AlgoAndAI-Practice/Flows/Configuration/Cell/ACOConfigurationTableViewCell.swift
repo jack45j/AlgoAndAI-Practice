@@ -54,7 +54,7 @@ class ACOConfigurationTableViewCell: UITableViewCell, NibReusable {
     }
     
     @objc func alphaValueSliderSliderValueDidChange(slider: UISlider, event: UIEvent) {
-        let roundedValue = slider.value.rounded(.up)
+        let roundedValue = (slider.value * 10).rounded(.up) / 10.0
         alphaValueSliderValueLabel.text = "\(roundedValue)"
         
         if event.allTouches?.first?.phase == .ended {
@@ -64,7 +64,7 @@ class ACOConfigurationTableViewCell: UITableViewCell, NibReusable {
     }
     
     @objc func betaValueSliderSliderValueDidChange(slider: UISlider, event: UIEvent) {
-        let roundedValue = slider.value.rounded(.up)
+        let roundedValue = (slider.value * 10).rounded(.up) / 10.0
         betaValueSliderValueLabel.text = "\(roundedValue)"
         
         if event.allTouches?.first?.phase == .ended {

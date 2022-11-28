@@ -2,7 +2,7 @@
 //  AcoViewController.swift
 //  AlgoAndAI-Practice
 //
-//  Created by 林翌埕-20001107 on 2022/9/19.
+//  Created by Benson Lin on 2022/9/19.
 //
 
 import Foundation
@@ -15,22 +15,16 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
     
     var onFinish: (() -> Void)?
     
-    class func instantiate(config: ACOConfiguration) -> AcoViewController {
+    class func instantiate(config: ACOConfigurations) -> AcoViewController {
         let viewController = AcoViewController()
         viewController.config = config
         return viewController
     }
     
-    typealias T = ACOConfiguration
+    typealias T = ACOConfigurations
     var config: T!
     
     var placements: [Placement] = []
-    
-    // MARK: Threshold
-    let IS_THRESHOLD_TO_STOP = false
-    let THRESHOLD_GEN = 100
-    
-    var currentContinuouslyGen = 0
     
     // MARK: Variables
     private var routes: [Set<Placement>: PheromoneRate] = [:]
@@ -53,6 +47,12 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        if config.USE_PENTAGON {
+            self.placements = generagePentagon()
+            self.drawPlacements(self.placements)
+            self.nextInteration()
+            return
+        }
         
         if config.USE_PREVIOUS {
             guard let cachedPoints = try? UserDefaults.standard.get(objectType: [CGPoint].self, forKey: "Controller.Placements") else { fatalError() }
@@ -77,8 +77,8 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
     }
     
     private func nextInteration() {
-        print("[ACO] start Interation(\(currentGen))")
         currentGen += 1
+        print("[ACO] start Interation(\(currentGen))")
         var solutions: [Solution] = []
         
         func nextAnt() {
@@ -109,11 +109,6 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
         operation?.addBarrierBlock {
             if let currentBestSolution = self.currentBestSolution {
                 let best = ([currentBestSolution] + solutions).sorted(by: { $0.totalDistance < $1.totalDistance }).first
-                if self.currentBestSolution?.placements.map({ $0.id }) == best?.placements.map({ $0.id }) {
-                    self.currentContinuouslyGen += 1
-                } else {
-                    self.currentContinuouslyGen = 0
-                }
                 self.currentBestSolution = best
             } else {
                 self.currentBestSolution = solutions.sorted(by: { $0.totalDistance < $1.totalDistance }).first
@@ -125,7 +120,7 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
         }
         
         // Draw
-        guard currentGen <= config.MAX_GENERATION && !(IS_THRESHOLD_TO_STOP && currentContinuouslyGen >= THRESHOLD_GEN) else {
+        guard currentGen <= config.MAX_GENERATION else {
             operation?.cancelAllOperations()
             operation = nil
             DispatchQueue.main.async {
@@ -151,14 +146,17 @@ final class AcoViewController: UIViewController, ConfigurableType, AcoViewContro
     }
     
     private func selectNextPlacement(from place: Placement, remaining:  [Placement]) -> Placement {
-        let distanceList = remaining.map { pow(1.0 / Double($0.distance(to: place)), Double(config.DISTANCE_PRIORITY))  }
+        let distanceList = remaining.map { pow(1.0 / Double($0.distance(to: place)), Double(config.DISTANCE_PRIORITY)) }
         
         let pheromoneList = remaining.map { pow(self.getPheromone(between: (place, $0)), Double(config.PHEROMONE_PRIORITY)) }
         
         let fitnessList = zip(distanceList, pheromoneList).map { $0.0 * $0.1 }
         
-        guard let index = Selection.rouletteWheelSelect(from: fitnessList, tournamemtSize: 1)?.index else { fatalError() }
-        return remaining[index]
+        switch config.SELECTION {
+        case .rouletteWheel(let pickSize):
+            guard let index = Selections.rouletteWheelSelect(from: fitnessList, tournamemtSize: pickSize)?.index else { fatalError() }
+            return remaining[index]
+        }
     }
     
     

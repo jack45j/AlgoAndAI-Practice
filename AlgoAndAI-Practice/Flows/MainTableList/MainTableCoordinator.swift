@@ -29,7 +29,7 @@ final class MainTableCoordinator: BaseCoordinator {
         mainTableListController.onSelectFlow = { [unowned self] flow in
             switch flow {
             case .aco:      self.runAcoFlow()
-            case .gene:     return
+            case .gene:     self.runGaFlow()
             }
         }
         
@@ -44,5 +44,15 @@ final class MainTableCoordinator: BaseCoordinator {
         
         addDependency(acoCoordinator)
         acoCoordinator.start()
+    }
+    
+    private func runGaFlow() {
+        let gaCoordinator = coordinatorFactory.makeGaCoordinator(router: router)
+        gaCoordinator.finishFlow = { [weak self, weak gaCoordinator] in
+            self?.removeDependency(gaCoordinator)
+        }
+        
+        addDependency(gaCoordinator)
+        gaCoordinator.start()
     }
 }

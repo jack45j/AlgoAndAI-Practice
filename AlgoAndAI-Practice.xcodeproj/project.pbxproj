@@ -40,9 +40,18 @@
 		46DB96E52932B5E700CC8889 /* GenerationLimitationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */; };
 		46DB96E829333A5E00CC8889 /* ACOConfigurationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */; };
 		46DB96E929333A5E00CC8889 /* ACOConfigurationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */; };
+		DB8C460129345C70000D345D /* ConfigurationViewControllerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C460029345C70000D345D /* ConfigurationViewControllerOutput.swift */; };
+		DB8C460329348BFA000D345D /* GAConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C460229348BFA000D345D /* GAConfigurations.swift */; };
+		DB8C4605293493A6000D345D /* GACoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C4604293493A6000D345D /* GACoordinator.swift */; };
+		DB8C4607293493F8000D345D /* GaModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C4606293493F8000D345D /* GaModuleFactory.swift */; };
+		DB8C46092934941C000D345D /* GaModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */; };
 		DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */; };
 		DBA6A15E28DAFE540014D5D5 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15D28DAFE540014D5D5 /* Selection.swift */; };
 		DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15F28DB57B60014D5D5 /* Solution.swift */; };
+		DBCBEB9E29349C29005404BD /* GAViewControllerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCBEB9D29349C29005404BD /* GAViewControllerOutput.swift */; };
+		DBCBEBA029349C66005404BD /* GACoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCBEB9F29349C66005404BD /* GACoordinatorOutput.swift */; };
+		DBCBEBA32934AE22005404BD /* GAConfigurationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCBEBA12934AE22005404BD /* GAConfigurationTableViewCell.swift */; };
+		DBCBEBA42934AE22005404BD /* GAConfigurationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBCBEBA22934AE22005404BD /* GAConfigurationTableViewCell.xib */; };
 		DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8D38728D6D81600005C10 /* AppDelegate.swift */; };
 		DBD8D38C28D6D81600005C10 /* GAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8D38B28D6D81600005C10 /* GAViewController.swift */; };
 		DBD8D38F28D6D81600005C10 /* MainTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBD8D38D28D6D81600005C10 /* MainTableViewController.storyboard */; };
@@ -90,9 +99,18 @@
 		46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenerationLimitationTableViewCell.xib; sourceTree = "<group>"; };
 		46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACOConfigurationTableViewCell.swift; sourceTree = "<group>"; };
 		46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACOConfigurationTableViewCell.xib; sourceTree = "<group>"; };
+		DB8C460029345C70000D345D /* ConfigurationViewControllerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewControllerOutput.swift; sourceTree = "<group>"; };
+		DB8C460229348BFA000D345D /* GAConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAConfigurations.swift; sourceTree = "<group>"; };
+		DB8C4604293493A6000D345D /* GACoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GACoordinator.swift; sourceTree = "<group>"; };
+		DB8C4606293493F8000D345D /* GaModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaModuleFactory.swift; sourceTree = "<group>"; };
+		DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaModuleFactoryImp.swift; sourceTree = "<group>"; };
 		DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDwfaults+additions.swift"; sourceTree = "<group>"; };
 		DBA6A15D28DAFE540014D5D5 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		DBA6A15F28DB57B60014D5D5 /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
+		DBCBEB9D29349C29005404BD /* GAViewControllerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAViewControllerOutput.swift; sourceTree = "<group>"; };
+		DBCBEB9F29349C66005404BD /* GACoordinatorOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GACoordinatorOutput.swift; sourceTree = "<group>"; };
+		DBCBEBA12934AE22005404BD /* GAConfigurationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAConfigurationTableViewCell.swift; sourceTree = "<group>"; };
+		DBCBEBA22934AE22005404BD /* GAConfigurationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GAConfigurationTableViewCell.xib; sourceTree = "<group>"; };
 		DBD8D38428D6D81600005C10 /* AlgoAndAI-Practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AlgoAndAI-Practice.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBD8D38728D6D81600005C10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBD8D38B28D6D81600005C10 /* GAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +176,7 @@
 				463CA15A292A2149009F6488 /* App */,
 				463CA15D292A2193009F6488 /* MainTableList */,
 				DBD8D3B728D8765200005C10 /* ACO */,
+				DBD8D3B428D8553600005C10 /* GA */,
 				46DB96D129325EF200CC8889 /* Configuration */,
 			);
 			path = Flows;
@@ -206,6 +225,7 @@
 			children = (
 				463CA16C292A297A009F6488 /* AcoModuleFactory.swift */,
 				463CA153292A1FCF009F6488 /* MainTableModuleFactory.swift */,
+				DB8C4606293493F8000D345D /* GaModuleFactory.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -223,6 +243,7 @@
 			children = (
 				463CA17E292A3935009F6488 /* AcoModuleFactoryImp.swift */,
 				463CA172292A2FA0009F6488 /* MainTableModuleFactoryImp.swift */,
+				DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -241,6 +262,7 @@
 			children = (
 				46DB96DA29326B7700CC8889 /* Cell */,
 				46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */,
+				DB8C460029345C70000D345D /* ConfigurationViewControllerOutput.swift */,
 				46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */,
 				46DB96D22932610D00CC8889 /* Configurable.swift */,
 			);
@@ -256,6 +278,8 @@
 				46DB96E32932B5E700CC8889 /* GenerationLimitationTableViewCell.xib */,
 				46DB96E629333A5E00CC8889 /* ACOConfigurationTableViewCell.swift */,
 				46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */,
+				DBCBEBA12934AE22005404BD /* GAConfigurationTableViewCell.swift */,
+				DBCBEBA22934AE22005404BD /* GAConfigurationTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -263,6 +287,8 @@
 		DBA6A16328DB57EB0014D5D5 /* Type+imp */ = {
 			isa = PBXGroup;
 			children = (
+				DBD8D3A628D7172A00005C10 /* Chromosome.swift */,
+				DBA6A15D28DAFE540014D5D5 /* Selection.swift */,
 				DBA6A15F28DB57B60014D5D5 /* Solution.swift */,
 				DBD8D39B28D6F9F200005C10 /* Placement.swift */,
 				DBD8D39D28D6FA5300005C10 /* PlacementGeneratable.swift */,
@@ -295,7 +321,6 @@
 				463CA158292A2131009F6488 /* Router */,
 				463CA157292A210B009F6488 /* Factories */,
 				463CA159292A213F009F6488 /* Flows */,
-				DBD8D3B428D8553600005C10 /* GA */,
 				DBA6A16328DB57EB0014D5D5 /* Type+imp */,
 				DBD8D3A528D6FAED00005C10 /* utils */,
 				DBD8D39028D6D81800005C10 /* Assets.xcassets */,
@@ -312,7 +337,6 @@
 				DBD8D3A128D6FAC000005C10 /* Float+additions.swift */,
 				DBD8D3A328D6FADE00005C10 /* CGRect+additions.swift */,
 				DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */,
-				DBA6A15D28DAFE540014D5D5 /* Selection.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -321,7 +345,10 @@
 			isa = PBXGroup;
 			children = (
 				DBD8D38B28D6D81600005C10 /* GAViewController.swift */,
-				DBD8D3A628D7172A00005C10 /* Chromosome.swift */,
+				DB8C4604293493A6000D345D /* GACoordinator.swift */,
+				DBCBEB9D29349C29005404BD /* GAViewControllerOutput.swift */,
+				DBCBEB9F29349C66005404BD /* GACoordinatorOutput.swift */,
+				DB8C460229348BFA000D345D /* GAConfigurations.swift */,
 			);
 			path = GA;
 			sourceTree = "<group>";
@@ -404,6 +431,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBCBEBA42934AE22005404BD /* GAConfigurationTableViewCell.xib in Resources */,
 				46DB96D929326B7300CC8889 /* PlacementConfigTableViewCell.xib in Resources */,
 				46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */,
 				46DB96E929333A5E00CC8889 /* ACOConfigurationTableViewCell.xib in Resources */,
@@ -432,9 +460,12 @@
 				DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */,
 				463CA14C292A1EB6009F6488 /* AppCoordinator.swift in Sources */,
 				46DB96D029325E3500CC8889 /* ConfigurationViewController.swift in Sources */,
+				DBCBEBA029349C66005404BD /* GACoordinatorOutput.swift in Sources */,
 				46DB96D32932610D00CC8889 /* Configurable.swift in Sources */,
 				46DB96D829326B7300CC8889 /* PlacementConfigTableViewCell.swift in Sources */,
+				DB8C460129345C70000D345D /* ConfigurationViewControllerOutput.swift in Sources */,
 				463CA177292A339D009F6488 /* MainTableCoordinatorFactory.swift in Sources */,
+				DBCBEBA32934AE22005404BD /* GAConfigurationTableViewCell.swift in Sources */,
 				463CA16F292A2CA6009F6488 /* MainTableViewOutput.swift in Sources */,
 				DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */,
 				463CA17F292A3935009F6488 /* AcoModuleFactoryImp.swift in Sources */,
@@ -445,6 +476,8 @@
 				DBD8D3A428D6FADE00005C10 /* CGRect+additions.swift in Sources */,
 				463CA15C292A2170009F6488 /* MainTableCoordinator.swift in Sources */,
 				463CA17B292A37D6009F6488 /* AcoViewControllerOutput.swift in Sources */,
+				DBCBEB9E29349C29005404BD /* GAViewControllerOutput.swift in Sources */,
+				DB8C4605293493A6000D345D /* GACoordinator.swift in Sources */,
 				463CA16B292A291F009F6488 /* AcoCoordinator.swift in Sources */,
 				46DB96E12932A9C400CC8889 /* ACOConfiguration.swift in Sources */,
 				463CA150292A1F63009F6488 /* Router.swift in Sources */,
@@ -454,8 +487,11 @@
 				463CA154292A1FCF009F6488 /* MainTableModuleFactory.swift in Sources */,
 				463CA171292A2D2F009F6488 /* FlowsModel.swift in Sources */,
 				463CA147292A1CEC009F6488 /* Presentable.swift in Sources */,
+				DB8C460329348BFA000D345D /* GAConfigurations.swift in Sources */,
 				DBA6A15E28DAFE540014D5D5 /* Selection.swift in Sources */,
 				463CA14E292A1EF2009F6488 /* BaseCoordinator.swift in Sources */,
+				DB8C4607293493F8000D345D /* GaModuleFactory.swift in Sources */,
+				DB8C46092934941C000D345D /* GaModuleFactoryImp.swift in Sources */,
 				463CA166292A2448009F6488 /* CoordinatorFactory+Imp.swift in Sources */,
 				DBD8D3A228D6FAC000005C10 /* Float+additions.swift in Sources */,
 				463CA179292A34FC009F6488 /* AcoCoordinatorOutput.swift in Sources */,

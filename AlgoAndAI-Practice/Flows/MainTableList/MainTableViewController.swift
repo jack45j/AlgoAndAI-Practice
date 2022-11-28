@@ -2,7 +2,7 @@
 //  MainTableViewController.swift
 //  AlgoAndAI-Practice
 //
-//  Created by 林翌埕-20001107 on 2022/9/19.
+//  Created by Benson Lin on 2022/9/19.
 //
 
 import UIKit
@@ -18,6 +18,10 @@ class MainTableViewController: UITableViewController, StoryboardBased, MainTable
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return FlowsModel.sectionsTitle[section]
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return FlowsModel.sections.count

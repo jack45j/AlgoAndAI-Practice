@@ -1,36 +1,35 @@
 //
-//  AcoCoordinator.swift
+//  GACoordinator.swift
 //  AlgoAndAI-Practice
 //
-//  Created by Yi-Cheng Lin on 2022/11/20.
+//  Created by 林翌埕-20001107 on 2022/11/28.
 //
 
 import Foundation
 
-final class AcoCoordinator: BaseCoordinator, AcoCoordinatorOutput {
-    
+class GACoordinator: BaseCoordinator, GACoordinatorOutput {
     var finishFlow: (() -> Void)?
     
     private let router: Router
-    private let factory: AcoModuleFactory
+    private let factory: GaModuleFactory
     
-    init(factory: AcoModuleFactory, router: Router) {
+    init(factory: GaModuleFactory, router: Router) {
         self.factory = factory
         self.router = router
     }
     
     override func start() {
-        showAcoFlow()
+        showGaFlow()
     }
     
-    private func showAcoFlow() {
-        let config = ACOConfigurations()
+    private func showGaFlow() {
+        let config = GAConfigurations()
         
         let configModule = factory.makeSettingModule(config: config)
         configModule.onConfirm = { [unowned self] configurations in
-            guard let config = configurations as? ACOConfigurations else { fatalError() }
-            let acoModule = factory.makeAcoPageModule(config: config)
-            self.router.push(acoModule)
+            guard let config = configurations as? GAConfigurations else { fatalError() }
+            let gaModule = factory.makeGaPageModule(config: config)
+            self.router.push(gaModule)
         }
         
         configModule.onFinish = { [unowned self] in
