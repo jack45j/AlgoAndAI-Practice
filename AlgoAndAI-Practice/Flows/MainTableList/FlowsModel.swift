@@ -8,21 +8,26 @@
 import Foundation
 
 enum FlowsModel: CaseIterable {
-    case aco
-    case gene
+    case tspAco
+    case tspGene
+    
+    case mazeDfs
     
     var title: String {
         switch self {
-        case .aco:
+        case .tspAco:
             return "Ant Colony Opt"
-        case .gene:
+        case .tspGene:
             return "Genetic Algo"
+        case .mazeDfs:
+            return "Recursive backtracker"
         }
     }
     
     static var sections: [[Self]] {
         return [
-            [.aco, .gene]
+            [.tspAco, .tspGene],
+            [.mazeDfs]
         ]
     }
     

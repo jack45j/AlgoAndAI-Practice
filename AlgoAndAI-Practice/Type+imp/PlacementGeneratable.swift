@@ -61,18 +61,10 @@ extension PlacementGeneratable where Self: UIViewController {
             }
         }
         gen(radius: pentagonSize, degreeOffset: 0)
-        gen(radius: pentagonSize / 2, degreeOffset: 0)
-        gen(radius: pentagonSize / 4, degreeOffset: 180)
+        gen(radius: pentagonSize / 1.5, degreeOffset: 0)
+        gen(radius: pentagonSize / 3.5, degreeOffset: 180)
         return placements
     }
 }
 
-extension CGPoint {
-    func coordinateOfCircle(radius: Float, angle: Float) -> CGPoint {
-        let offsetAngle = angle - 90
-        let x = (radius * cos(offsetAngle * Float.pi / 180) * 100).rounded(.toNearestOrEven) / 100.0
-        let y = (radius * sin(offsetAngle * Float.pi / 180) * 100.0).rounded(.toNearestOrEven) / 100.0
-        
-        return CGPoint(x: CGFloat(x), y: CGFloat(y))
-    }
-}
+

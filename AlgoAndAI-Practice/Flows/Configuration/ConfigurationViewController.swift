@@ -13,12 +13,14 @@ fileprivate enum Configurations {
     case generation
     case placements
     case aco
+    case ga
     
     var sectionTitle: String {
         switch self {
         case .generation:   return "Generation Limit Configuration"
         case .placements:   return "Placement Generate Configurations"
         case .aco:          return "Ant Colony Optimization Configurations"
+        case .ga:           return "Genetic Algorithm Configurations"
         }
     }
 }
@@ -59,6 +61,7 @@ class ConfigurationViewController: UIViewController, StoryboardBased, Configurat
         tableView.register(cellType: PlacementConfigTableViewCell.self)
         tableView.register(cellType: GenerationLimitationTableViewCell.self)
         tableView.register(cellType: ACOConfigurationTableViewCell.self)
+        tableView.register(cellType: GAConfigurationTableViewCell.self)
     }
     
     private func normalizeConfigurations() {
@@ -72,6 +75,10 @@ class ConfigurationViewController: UIViewController, StoryboardBased, Configurat
         
         if let _ = config as? ACOConfigurationType {
             dataSource.append(.aco)
+        }
+        
+        if let _ = config as? GAConfigurationType {
+            dataSource.append(.ga)
         }
     }
     
@@ -184,6 +191,45 @@ extension ConfigurationViewController: UITableViewDataSource {
                                               beta: config.DISTANCE_PRIORITY)
             }
             return acoConfigCell
+        case .ga:
+            let gaConfigCell: GAConfigurationTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            
+            gaConfigCell.onPopulationSizeDidChange = { [unowned self] size in
+                if var config = self.config as? GAConfigurationType {
+                    config.POPULATION_SIZE = size
+                    self.config = config
+                }
+            }
+            
+            gaConfigCell.onMutateRateValueDidChange = { [unowned self] rate in
+                if var config = self.config as? GAConfigurationType {
+                    config.MUTATE_RATE = Double(rate)
+                    self.config = config
+                }
+            }
+            
+            gaConfigCell.onCrossOverRateValueDidChange = { [unowned self] rate in
+                if var config = self.config as? GAConfigurationType {
+                    config.CROSSOVER_RATE = Double(rate)
+                    self.config = config
+                }
+            }
+            
+            gaConfigCell.onElitePreserveRateValueDidChange = { [unowned self] rate in
+                if var config = self.config as? GAConfigurationType {
+                    config.ELITE_PERCENT_TO_PRESERVE = Double(rate)
+                    self.config = config
+                }
+            }
+            
+            if let config = self.config as? GAConfigurationType {
+                gaConfigCell.setDefaultState(population: config.POPULATION_SIZE,
+                                             mutate: config.MUTATE_RATE,
+                                             crossOver: config.CROSSOVER_RATE,
+                                             elitePreserve: config.ELITE_PERCENT_TO_PRESERVE)
+            }
+            
+            return gaConfigCell
         }
     }
 }

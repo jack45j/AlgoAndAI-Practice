@@ -28,8 +28,9 @@ final class MainTableCoordinator: BaseCoordinator {
         
         mainTableListController.onSelectFlow = { [unowned self] flow in
             switch flow {
-            case .aco:      self.runAcoFlow()
-            case .gene:     self.runGaFlow()
+            case .tspAco:       self.runAcoFlow()
+            case .tspGene:      self.runGaFlow()
+            case .mazeDfs:      self.runDfsFlow()
             }
         }
         
@@ -54,5 +55,9 @@ final class MainTableCoordinator: BaseCoordinator {
         
         addDependency(gaCoordinator)
         gaCoordinator.start()
+    }
+    
+    private func runDfsFlow() {
+        router.push(DfsMazeGenerationViewController())
     }
 }
