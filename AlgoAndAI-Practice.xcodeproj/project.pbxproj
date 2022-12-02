@@ -29,6 +29,16 @@
 		463CA17B292A37D6009F6488 /* AcoViewControllerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CA17A292A37D6009F6488 /* AcoViewControllerOutput.swift */; };
 		463CA17F292A3935009F6488 /* AcoModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CA17E292A3935009F6488 /* AcoModuleFactoryImp.swift */; };
 		4656EB742938E32100DC6852 /* DfsMazeGenerationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EB732938E32100DC6852 /* DfsMazeGenerationViewController.swift */; };
+		4656EBB7293A21F900DC6852 /* UIView+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBB6293A21F900DC6852 /* UIView+additions.swift */; };
+		4656EBB9293A221700DC6852 /* MazeGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBB8293A221700DC6852 /* MazeGeneratable.swift */; };
+		4656EBBB293A242E00DC6852 /* MazeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBBA293A242E00DC6852 /* MazeUnit.swift */; };
+		4656EBBE293A2F2A00DC6852 /* MazeSizeGenerationConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBBD293A2F2A00DC6852 /* MazeSizeGenerationConfigurations.swift */; };
+		4656EBC2293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC1293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift */; };
+		4656EBC4293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC3293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift */; };
+		4656EBC6293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC5293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift */; };
+		4656EBC8293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */; };
+		4656EBCB293A375400DC6852 /* MazeSizeConfigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC9293A375400DC6852 /* MazeSizeConfigTableViewCell.swift */; };
+		4656EBCC293A375400DC6852 /* MazeSizeConfigTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */; };
 		46DB96D029325E3500CC8889 /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */; };
 		46DB96D32932610D00CC8889 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96D22932610D00CC8889 /* Configurable.swift */; };
 		46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */; };
@@ -91,6 +101,16 @@
 		463CA17A292A37D6009F6488 /* AcoViewControllerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcoViewControllerOutput.swift; sourceTree = "<group>"; };
 		463CA17E292A3935009F6488 /* AcoModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcoModuleFactoryImp.swift; sourceTree = "<group>"; };
 		4656EB732938E32100DC6852 /* DfsMazeGenerationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DfsMazeGenerationViewController.swift; sourceTree = "<group>"; };
+		4656EBB6293A21F900DC6852 /* UIView+additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+additions.swift"; sourceTree = "<group>"; };
+		4656EBB8293A221700DC6852 /* MazeGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeGeneratable.swift; sourceTree = "<group>"; };
+		4656EBBA293A242E00DC6852 /* MazeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeUnit.swift; sourceTree = "<group>"; };
+		4656EBBD293A2F2A00DC6852 /* MazeSizeGenerationConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeGenerationConfigurations.swift; sourceTree = "<group>"; };
+		4656EBC1293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigurableGenerationModuleFactory.swift; sourceTree = "<group>"; };
+		4656EBC3293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigurableGenerationModuleFactoryImp.swift; sourceTree = "<group>"; };
+		4656EBC5293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigurableGenerationCoordinatorOutput.swift; sourceTree = "<group>"; };
+		4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigurableGenerationCoordinator.swift; sourceTree = "<group>"; };
+		4656EBC9293A375400DC6852 /* MazeSizeConfigTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigTableViewCell.swift; sourceTree = "<group>"; };
+		4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MazeSizeConfigTableViewCell.xib; sourceTree = "<group>"; };
 		46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
 		46DB96D22932610D00CC8889 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
 		46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ConfigurationViewController.storyboard; sourceTree = "<group>"; };
@@ -179,10 +199,9 @@
 			children = (
 				463CA15A292A2149009F6488 /* App */,
 				463CA15D292A2193009F6488 /* MainTableList */,
-				DBD8D3B728D8765200005C10 /* ACO */,
-				DBD8D3B428D8553600005C10 /* GA */,
+				4656EBBF293A2F7200DC6852 /* TSP */,
+				4656EBC0293A2F7900DC6852 /* Maze */,
 				46DB96D129325EF200CC8889 /* Configuration */,
-				4656EB732938E32100DC6852 /* DfsMazeGenerationViewController.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -231,6 +250,7 @@
 				463CA16C292A297A009F6488 /* AcoModuleFactory.swift */,
 				463CA153292A1FCF009F6488 /* MainTableModuleFactory.swift */,
 				DB8C4606293493F8000D345D /* GaModuleFactory.swift */,
+				4656EBC1293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -249,6 +269,7 @@
 				463CA17E292A3935009F6488 /* AcoModuleFactoryImp.swift */,
 				463CA172292A2FA0009F6488 /* MainTableModuleFactoryImp.swift */,
 				DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */,
+				4656EBC3293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -260,6 +281,34 @@
 				463CA17D292A38D9009F6488 /* Module */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		4656EBBC293A2EF800DC6852 /* DFS */ = {
+			isa = PBXGroup;
+			children = (
+				4656EB732938E32100DC6852 /* DfsMazeGenerationViewController.swift */,
+			);
+			path = DFS;
+			sourceTree = "<group>";
+		};
+		4656EBBF293A2F7200DC6852 /* TSP */ = {
+			isa = PBXGroup;
+			children = (
+				DBD8D3B728D8765200005C10 /* ACO */,
+				DBD8D3B428D8553600005C10 /* GA */,
+			);
+			path = TSP;
+			sourceTree = "<group>";
+		};
+		4656EBC0293A2F7900DC6852 /* Maze */ = {
+			isa = PBXGroup;
+			children = (
+				4656EBBD293A2F2A00DC6852 /* MazeSizeGenerationConfigurations.swift */,
+				4656EBC5293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift */,
+				4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */,
+				4656EBBC293A2EF800DC6852 /* DFS */,
+			);
+			path = Maze;
 			sourceTree = "<group>";
 		};
 		46DB96D129325EF200CC8889 /* Configuration */ = {
@@ -285,6 +334,8 @@
 				46DB96E729333A5E00CC8889 /* ACOConfigurationTableViewCell.xib */,
 				DBCBEBA12934AE22005404BD /* GAConfigurationTableViewCell.swift */,
 				DBCBEBA22934AE22005404BD /* GAConfigurationTableViewCell.xib */,
+				4656EBC9293A375400DC6852 /* MazeSizeConfigTableViewCell.swift */,
+				4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -297,6 +348,8 @@
 				DBA6A15F28DB57B60014D5D5 /* Solution.swift */,
 				DBD8D39B28D6F9F200005C10 /* Placement.swift */,
 				DBD8D39D28D6FA5300005C10 /* PlacementGeneratable.swift */,
+				4656EBB8293A221700DC6852 /* MazeGeneratable.swift */,
+				4656EBBA293A242E00DC6852 /* MazeUnit.swift */,
 			);
 			path = "Type+imp";
 			sourceTree = "<group>";
@@ -343,6 +396,7 @@
 				DBD8D3A328D6FADE00005C10 /* CGRect+additions.swift */,
 				DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */,
 				46DB96EE2938D7EF00CC8889 /* CGPoint+additions.swift */,
+				4656EBB6293A21F900DC6852 /* UIView+additions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -437,6 +491,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4656EBCC293A375400DC6852 /* MazeSizeConfigTableViewCell.xib in Resources */,
 				DBCBEBA42934AE22005404BD /* GAConfigurationTableViewCell.xib in Resources */,
 				46DB96D929326B7300CC8889 /* PlacementConfigTableViewCell.xib in Resources */,
 				46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */,
@@ -455,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4656EBC2293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift in Sources */,
 				DBD8D3B928D8768100005C10 /* MainTableViewController.swift in Sources */,
 				DBD8D38C28D6D81600005C10 /* GAViewController.swift in Sources */,
 				463CA143292A1CB0009F6488 /* Coordinator.swift in Sources */,
@@ -464,8 +520,10 @@
 				463CA169292A25BB009F6488 /* Router+Imp.swift in Sources */,
 				DBD8D3A028D6FAA100005C10 /* UIBezierPath+additions.swift in Sources */,
 				DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */,
+				4656EBBE293A2F2A00DC6852 /* MazeSizeGenerationConfigurations.swift in Sources */,
 				463CA14C292A1EB6009F6488 /* AppCoordinator.swift in Sources */,
 				46DB96D029325E3500CC8889 /* ConfigurationViewController.swift in Sources */,
+				4656EBB9293A221700DC6852 /* MazeGeneratable.swift in Sources */,
 				DBCBEBA029349C66005404BD /* GACoordinatorOutput.swift in Sources */,
 				46DB96D32932610D00CC8889 /* Configurable.swift in Sources */,
 				46DB96D829326B7300CC8889 /* PlacementConfigTableViewCell.swift in Sources */,
@@ -479,11 +537,15 @@
 				46DB96E42932B5E700CC8889 /* GenerationLimitationTableViewCell.swift in Sources */,
 				463CA16D292A297A009F6488 /* AcoModuleFactory.swift in Sources */,
 				DBD8D3B628D8764D00005C10 /* AcoViewController.swift in Sources */,
+				4656EBB7293A21F900DC6852 /* UIView+additions.swift in Sources */,
 				DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */,
 				DBD8D3A428D6FADE00005C10 /* CGRect+additions.swift in Sources */,
 				463CA15C292A2170009F6488 /* MainTableCoordinator.swift in Sources */,
 				463CA17B292A37D6009F6488 /* AcoViewControllerOutput.swift in Sources */,
+				4656EBC6293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift in Sources */,
+				4656EBC4293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift in Sources */,
 				DBCBEB9E29349C29005404BD /* GAViewControllerOutput.swift in Sources */,
+				4656EBC8293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift in Sources */,
 				DB8C4605293493A6000D345D /* GACoordinator.swift in Sources */,
 				463CA16B292A291F009F6488 /* AcoCoordinator.swift in Sources */,
 				46DB96E12932A9C400CC8889 /* ACOConfiguration.swift in Sources */,
@@ -499,7 +561,9 @@
 				463CA14E292A1EF2009F6488 /* BaseCoordinator.swift in Sources */,
 				DB8C4607293493F8000D345D /* GaModuleFactory.swift in Sources */,
 				DB8C46092934941C000D345D /* GaModuleFactoryImp.swift in Sources */,
+				4656EBCB293A375400DC6852 /* MazeSizeConfigTableViewCell.swift in Sources */,
 				463CA166292A2448009F6488 /* CoordinatorFactory+Imp.swift in Sources */,
+				4656EBBB293A242E00DC6852 /* MazeUnit.swift in Sources */,
 				DBD8D3A228D6FAC000005C10 /* Float+additions.swift in Sources */,
 				463CA179292A34FC009F6488 /* AcoCoordinatorOutput.swift in Sources */,
 				DBD8D39E28D6FA5300005C10 /* PlacementGeneratable.swift in Sources */,

@@ -1,0 +1,54 @@
+//
+//  MazeSizeConfigurableGenerationCoordinator.swift
+//  AlgoAndAI-Practice
+//
+//  Created by Yi-Cheng Lin on 2022/12/2.
+//
+
+import Foundation
+
+class MazeSizeConfigurableGenerationCoordinator: BaseCoordinator, MazeSizeConfigurableGenerationCoordinatorOutput {
+    
+    enum MazeGenerationMethod {
+        case dfs
+        case prim
+    }
+    
+    private let router: Router
+    private let factory: MazeSizeConfigurableGenerationModuleFactory
+    private let method: MazeGenerationMethod
+    
+    var finishFlow: (() -> Void)?
+    
+    init(method: MazeGenerationMethod, factory: MazeSizeConfigurableGenerationModuleFactory, router: Router) {
+        self.method = method
+        self.factory = factory
+        self.router = router
+    }
+    
+    override func start() {
+        switch method {
+        case .dfs:
+            runDfsFlow()
+        default:
+            return
+        }
+    }
+    
+    private func runDfsFlow() {
+        let config = MazeSizeGenerationConfigurations()
+        
+        let configModule = factory.makeSettingModule(config: config)
+        configModule.onConfirm = { [unowned self] configurations in
+            guard let config = configurations as? MazeSizeGenerationConfigurations else { fatalError() }
+            let dfsModule = factory.makeDfsGenerationModule(config: config)
+            self.router.push(dfsModule)
+        }
+        
+        configModule.onFinish = { [unowned self] in
+            self.finishFlow?()
+        }
+        
+        router.push(configModule)
+    }
+}

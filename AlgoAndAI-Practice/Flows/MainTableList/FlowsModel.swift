@@ -20,7 +20,7 @@ enum FlowsModel: CaseIterable {
         case .tspGene:
             return "Genetic Algo"
         case .mazeDfs:
-            return "Recursive backtracker"
+            return "Recursive backtracker (DFS)"
         }
     }
     

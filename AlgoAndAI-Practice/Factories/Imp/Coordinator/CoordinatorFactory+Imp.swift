@@ -22,6 +22,10 @@ final class CoordinatorFactoryImp: AppCoordinatorFactory, MainTableCoordinatorFa
         return GACoordinator(factory: GaModuleFactoryImp(), router: router)
     }
     
+    func makeMazeGenerationCoordinator(method: MazeSizeConfigurableGenerationCoordinator.MazeGenerationMethod, router: Router) -> MazeSizeConfigurableGenerationCoordinator {
+        return MazeSizeConfigurableGenerationCoordinator(method: method, factory: MazeSizeConfigurableGenerationModuleFactoryImp(), router: router)
+    }
+    
     private func router(_ navController: UINavigationController?) -> Router {
         return RouterImp(rootController: navigationController(navController))
     }

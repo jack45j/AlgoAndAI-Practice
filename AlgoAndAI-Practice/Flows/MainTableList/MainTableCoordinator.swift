@@ -58,6 +58,12 @@ final class MainTableCoordinator: BaseCoordinator {
     }
     
     private func runDfsFlow() {
-        router.push(DfsMazeGenerationViewController())
+        let mazeCoordinator = coordinatorFactory.makeMazeGenerationCoordinator(method: .dfs, router: router)
+        mazeCoordinator.finishFlow = { [weak self, weak mazeCoordinator] in
+            self?.removeDependency(mazeCoordinator)
+        }
+        
+        addDependency(mazeCoordinator)
+        mazeCoordinator.start()
     }
 }

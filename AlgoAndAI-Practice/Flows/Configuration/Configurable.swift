@@ -53,3 +53,26 @@ protocol GAConfigurationType: Configurable {
     // cross over
     var CROSSOVER_RATE: Double { get set }
 }
+
+protocol MazeSizeConfigurable: Configurable {
+    var edge1: Int { get set }
+    var edge2: Int { get set }
+}
+
+extension MazeSizeConfigurable {
+    func longEdge() -> Int {
+        return max(edge1, edge2)
+    }
+    
+    func shortEdge() -> Int {
+        return min(edge1, edge2)
+    }
+    
+    func startPoint() -> CGPoint {
+        return .init(x: 0, y: 1)
+    }
+    
+    func endPoint() -> CGPoint {
+        return .init(x: shortEdge() - 1, y: longEdge() - 2)
+    }
+}

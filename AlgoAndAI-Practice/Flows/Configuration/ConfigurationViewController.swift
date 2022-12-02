@@ -14,6 +14,7 @@ fileprivate enum Configurations {
     case placements
     case aco
     case ga
+    case mazeSize
     
     var sectionTitle: String {
         switch self {
@@ -21,6 +22,7 @@ fileprivate enum Configurations {
         case .placements:   return "Placement Generate Configurations"
         case .aco:          return "Ant Colony Optimization Configurations"
         case .ga:           return "Genetic Algorithm Configurations"
+        case .mazeSize:     return "Maze Size Configurations"
         }
     }
 }
@@ -62,9 +64,14 @@ class ConfigurationViewController: UIViewController, StoryboardBased, Configurat
         tableView.register(cellType: GenerationLimitationTableViewCell.self)
         tableView.register(cellType: ACOConfigurationTableViewCell.self)
         tableView.register(cellType: GAConfigurationTableViewCell.self)
+        tableView.register(cellType: MazeSizeConfigTableViewCell.self)
     }
     
     private func normalizeConfigurations() {
+        if let _ = config as? MazeSizeConfigurable {
+            dataSource.append(.mazeSize)
+        }
+        
         if let _ = config as? GenerationLimitationConfigurable {
             dataSource.append(.generation)
         }
@@ -230,6 +237,27 @@ extension ConfigurationViewController: UITableViewDataSource {
             }
             
             return gaConfigCell
+        case .mazeSize:
+            let mazeSizeConfigCell: MazeSizeConfigTableViewCell = tableView.dequeueReusableCell(for: indexPath)
+            mazeSizeConfigCell.onChangeEdge1Size = { [unowned self] edge1 in
+                if var config = self.config as? MazeSizeConfigurable {
+                    config.edge1 = edge1
+                    self.config = config
+                }
+            }
+            
+            mazeSizeConfigCell.onChangeEdge2Size = { [unowned self] edge2 in
+                if var config = self.config as? MazeSizeConfigurable {
+                    config.edge2 = edge2
+                    self.config = config
+                }
+            }
+            
+            if let config = self.config as? MazeSizeConfigurable {
+                mazeSizeConfigCell.setDefaultState(edge1: config.edge1, edge2: config.edge2)
+            }
+            
+            return mazeSizeConfigCell
         }
     }
 }
