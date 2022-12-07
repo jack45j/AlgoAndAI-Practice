@@ -68,6 +68,26 @@ extension MazeGeneratable where Self: UIViewController {
         }
     }
     
+    func breakWall(in maze: inout [[MazeUnit]], between units: (first: MazeUnit, second: MazeUnit)) {
+        if units.first.x == units.second.x {
+            // Same column
+            if units.first.y < units.second.y {
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .bottom)
+            } else {
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .top)
+            }
+        } else if units.first.y == units.second.y {
+            // Same Row
+            if units.first.x < units.second.x {
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .right)
+            } else {
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .left)
+            }
+        } else {
+            fatalError()
+        }
+    }
+    
     func breakWall(_ maze: inout [[MazeUnit]], x: Int, y: Int, direction: MazeUnit.WallDirection) {
         maze[x][y].walls[direction]?.removeFromSuperlayer()
         maze[x][y].walls.removeValue(forKey: direction)

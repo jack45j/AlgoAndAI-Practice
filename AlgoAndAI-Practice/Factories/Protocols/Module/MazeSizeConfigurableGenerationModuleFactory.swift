@@ -9,5 +9,6 @@ import Foundation
 
 protocol MazeSizeConfigurableGenerationModuleFactory {
     func makeDfsGenerationModule(config: MazeSizeGenerationConfigurations) -> DfsMazeGenerationViewController
+    func makePrimGenerationModule(config: MazeSizeGenerationConfigurations) -> PrimMazeGenerationViewController
     func makeSettingModule(config: Configurable) -> ConfigurationViewController
 }

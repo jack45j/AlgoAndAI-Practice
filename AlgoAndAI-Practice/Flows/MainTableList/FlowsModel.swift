@@ -12,6 +12,7 @@ enum FlowsModel: CaseIterable {
     case tspGene
     
     case mazeDfs
+    case mazePrim
     
     var title: String {
         switch self {
@@ -21,13 +22,15 @@ enum FlowsModel: CaseIterable {
             return "Genetic Algo"
         case .mazeDfs:
             return "Recursive backtracker (DFS)"
+        case .mazePrim:
+            return "Prim Algorithm"
         }
     }
     
     static var sections: [[Self]] {
         return [
             [.tspAco, .tspGene],
-            [.mazeDfs]
+            [.mazeDfs, .mazePrim]
         ]
     }
     

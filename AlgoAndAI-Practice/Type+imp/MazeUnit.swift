@@ -18,7 +18,13 @@ struct MazeUnit: Hashable {
     let id = UUID()
     var x: Int = 0
     var y: Int = 0
-    var isVisited = false
+    var isVisited = false {
+        didSet {
+            if isVisited {
+                self.view?.backgroundColor = .white
+            }
+        }
+    }
     var isMazeBorder = false
     var view: UIView? = nil
     var walls: [WallDirection: CALayer] = {

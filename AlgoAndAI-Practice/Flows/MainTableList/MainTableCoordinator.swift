@@ -31,6 +31,7 @@ final class MainTableCoordinator: BaseCoordinator {
             case .tspAco:       self.runAcoFlow()
             case .tspGene:      self.runGaFlow()
             case .mazeDfs:      self.runDfsFlow()
+            case .mazePrim:     self.runPrimFlow()
             }
         }
         
@@ -59,6 +60,16 @@ final class MainTableCoordinator: BaseCoordinator {
     
     private func runDfsFlow() {
         let mazeCoordinator = coordinatorFactory.makeMazeGenerationCoordinator(method: .dfs, router: router)
+        mazeCoordinator.finishFlow = { [weak self, weak mazeCoordinator] in
+            self?.removeDependency(mazeCoordinator)
+        }
+        
+        addDependency(mazeCoordinator)
+        mazeCoordinator.start()
+    }
+    
+    private func runPrimFlow() {
+        let mazeCoordinator = coordinatorFactory.makeMazeGenerationCoordinator(method: .prim, router: router)
         mazeCoordinator.finishFlow = { [weak self, weak mazeCoordinator] in
             self?.removeDependency(mazeCoordinator)
         }

@@ -39,6 +39,7 @@
 		4656EBC8293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */; };
 		4656EBCB293A375400DC6852 /* MazeSizeConfigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBC9293A375400DC6852 /* MazeSizeConfigTableViewCell.swift */; };
 		4656EBCC293A375400DC6852 /* MazeSizeConfigTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */; };
+		4656EBF02940E62900DC6852 /* PrimMazeGenerationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */; };
 		46DB96D029325E3500CC8889 /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */; };
 		46DB96D32932610D00CC8889 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96D22932610D00CC8889 /* Configurable.swift */; };
 		46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */; };
@@ -111,6 +112,7 @@
 		4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigurableGenerationCoordinator.swift; sourceTree = "<group>"; };
 		4656EBC9293A375400DC6852 /* MazeSizeConfigTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeSizeConfigTableViewCell.swift; sourceTree = "<group>"; };
 		4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MazeSizeConfigTableViewCell.xib; sourceTree = "<group>"; };
+		4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimMazeGenerationViewController.swift; sourceTree = "<group>"; };
 		46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
 		46DB96D22932610D00CC8889 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
 		46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ConfigurationViewController.storyboard; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				4656EBC5293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift */,
 				4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */,
 				4656EBBC293A2EF800DC6852 /* DFS */,
+				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
 			);
 			path = Maze;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4656EBC2293A32F000DC6852 /* MazeSizeConfigurableGenerationModuleFactory.swift in Sources */,
+				4656EBF02940E62900DC6852 /* PrimMazeGenerationViewController.swift in Sources */,
 				DBD8D3B928D8768100005C10 /* MainTableViewController.swift in Sources */,
 				DBD8D38C28D6D81600005C10 /* GAViewController.swift in Sources */,
 				463CA143292A1CB0009F6488 /* Coordinator.swift in Sources */,

@@ -13,6 +13,11 @@ final class MazeSizeConfigurableGenerationModuleFactoryImp: MazeSizeConfigurable
         return viewController
     }
     
+    func makePrimGenerationModule(config: MazeSizeGenerationConfigurations) -> PrimMazeGenerationViewController {
+        let viewController = PrimMazeGenerationViewController.instantiate(config: config)
+        return viewController
+    }
+    
     func makeSettingModule(config: Configurable) -> ConfigurationViewController {
         let viewController = ConfigurationViewController.instantiate(config: config)
         return viewController

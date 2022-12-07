@@ -30,8 +30,8 @@ class MazeSizeConfigurableGenerationCoordinator: BaseCoordinator, MazeSizeConfig
         switch method {
         case .dfs:
             runDfsFlow()
-        default:
-            return
+        case .prim:
+            runPrimFlow()
         }
     }
     
@@ -42,6 +42,23 @@ class MazeSizeConfigurableGenerationCoordinator: BaseCoordinator, MazeSizeConfig
         configModule.onConfirm = { [unowned self] configurations in
             guard let config = configurations as? MazeSizeGenerationConfigurations else { fatalError() }
             let dfsModule = factory.makeDfsGenerationModule(config: config)
+            self.router.push(dfsModule)
+        }
+        
+        configModule.onFinish = { [unowned self] in
+            self.finishFlow?()
+        }
+        
+        router.push(configModule)
+    }
+    
+    private func runPrimFlow() {
+        let config = MazeSizeGenerationConfigurations()
+        
+        let configModule = factory.makeSettingModule(config: config)
+        configModule.onConfirm = { [unowned self] configurations in
+            guard let config = configurations as? MazeSizeGenerationConfigurations else { fatalError() }
+            let dfsModule = factory.makePrimGenerationModule(config: config)
             self.router.push(dfsModule)
         }
         
