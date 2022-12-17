@@ -309,7 +309,7 @@
 				4656EBC5293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift */,
 				4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */,
 				4656EBBC293A2EF800DC6852 /* DFS */,
-				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
+				DB98049F294C0FC1003C1C95 /* Prim */,
 			);
 			path = Maze;
 			sourceTree = "<group>";
@@ -341,6 +341,14 @@
 				4656EBCA293A375400DC6852 /* MazeSizeConfigTableViewCell.xib */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		DB98049F294C0FC1003C1C95 /* Prim */ = {
+			isa = PBXGroup;
+			children = (
+				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
+			);
+			path = Prim;
 			sourceTree = "<group>";
 		};
 		DBA6A16328DB57EB0014D5D5 /* Type+imp */ = {

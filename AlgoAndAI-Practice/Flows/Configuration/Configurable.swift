@@ -69,10 +69,10 @@ extension MazeSizeConfigurable {
     }
     
     func startPoint() -> CGPoint {
-        return .init(x: 0, y: 1)
+        return .init(x: 0, y: 0)
     }
     
     func endPoint() -> CGPoint {
-        return .init(x: shortEdge() - 1, y: longEdge() - 2)
+        return .init(x: shortEdge() - 1, y: longEdge() - 1)
     }
 }

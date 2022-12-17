@@ -21,9 +21,9 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
     lazy var maze: [[MazeUnit]] = {
         var units: [[MazeUnit]] = []
         var column: [MazeUnit] = []
-        for _ in 1...config.shortEdge() {
-            for _ in 1...config.longEdge() {
-                column.append(.init())
+        for x in 1...config.shortEdge() {
+            for y in 1...config.longEdge() {
+                column.append(.init(coordinate: .init(x: x, y: y)))
             }
             units.append(column)
             column = []
@@ -48,12 +48,12 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
         
         // Break start point left wall
         maze[startPointX][startPointY].view?.backgroundColor = .white
-        breakWall(&maze, x: startPointX, y: startPointY, direction: .left)
+        breakWall(&maze, x: startPointX, y: startPointY, direction: .west)
         
         // Break End Point right wall
         maze[endPointX][endPointY].view?.backgroundColor = .white
         maze[endPointX][endPointY].isMazeBorder = false
-        breakWall(&maze, x: endPointX, y: endPointY, direction: .right)
+        breakWall(&maze, x: endPointX, y: endPointY, direction: .east)
         
         // push start unit into stack and start recursive
         mazeStack.append(maze[startPointX][startPointY])
@@ -65,9 +65,9 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
             guard let x = self.mazeStack.last?.x,
                   let y = self.mazeStack.last?.y else { t.invalidate(); return }
             
-            var available: [MazeUnit: MazeUnit.WallDirection] = [:]
+            var available: [MazeUnit: Direction] = [:]
             
-            MazeUnit.WallDirection.allCases.forEach { dir in
+            Direction.fourDirections.forEach { dir in
                 if let unit = self.find(x: x, y: y, of: dir),
                    !unit.isMazeBorder,
                    !self.mazeStack.map({ $0.id }).contains(unit.id),

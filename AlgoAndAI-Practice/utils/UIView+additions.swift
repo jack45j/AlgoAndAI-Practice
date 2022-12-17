@@ -11,20 +11,21 @@ import Foundation
 extension UIView {
     
     @discardableResult
-    func addBorder(toSide side: MazeUnit.WallDirection, withColor color: CGColor, andThickness thickness: CGFloat = 1) -> CALayer {
+    func addBorder(toSide side: Direction, withColor color: CGColor, andThickness thickness: CGFloat = 1) -> CALayer {
         
         let border = CALayer()
         border.backgroundColor = color
         
         switch side {
-        case .left:
+        case .west:
             border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: thickness, height: bounds.height)
-        case .right:
+        case .east:
             border.frame = CGRect(x: bounds.maxX, y: bounds.minY, width: thickness, height: bounds.height)
-        case .top:
+        case .north:
             border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: thickness)
-        case .bottom:
+        case .south:
             border.frame = CGRect(x: bounds.minX, y: bounds.maxY, width: bounds.width, height: thickness)
+        default: fatalError()
         }
         
         layer.addSublayer(border)

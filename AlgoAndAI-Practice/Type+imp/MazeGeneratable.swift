@@ -37,12 +37,11 @@ extension MazeGeneratable where Self: UIViewController {
                 let originPoint = CGPoint(x: center.x + CGFloat((width / 2) - width + x) * unitSize,
                                           y: center.y + CGFloat((height / 2) - height + y) * unitSize)
                 let unitView = UIView(frame: .init(origin: originPoint, size: .init(width: unitSize, height: unitSize)))
-                unitView.backgroundColor = isBorder ? .brown : .lightGray
+                unitView.backgroundColor = .lightGray
                 self.view.addSubview(unitView)
                 maze[x][y].isMazeBorder = isBorder
                 maze[x][y].view = unitView
-                maze[x][y].x = x
-                maze[x][y].y = y
+                maze[x][y].coordinate = .init(x: x, y: y)
                 
                 maze[x][y].walls.keys.forEach {
                     maze[x][y].walls[$0] = unitView.addBorder(toSide: $0, withColor: UIColor.black.cgColor)
@@ -51,20 +50,22 @@ extension MazeGeneratable where Self: UIViewController {
         }
     }
     
-    func find(x: Int, y: Int, of dir: MazeUnit.WallDirection) -> MazeUnit? {
+    func find(x: Int, y: Int, of dir: Direction) -> MazeUnit? {
         switch dir {
-        case .top:
+        case .north:
             guard y - 1 >= 0 else { return nil }
             return maze[x][y-1]
-        case .bottom:
+        case .south:
             guard y + 1 < longEdge() else { return nil }
             return maze[x][y+1]
-        case .left:
+        case .west:
             guard x - 1 >= 0 else { return nil }
             return maze[x-1][y]
-        case .right:
+        case .east:
             guard x + 1 < shortEdge() else { return nil }
             return maze[x+1][y]
+            
+        default: return nil
         }
     }
     
@@ -72,51 +73,53 @@ extension MazeGeneratable where Self: UIViewController {
         if units.first.x == units.second.x {
             // Same column
             if units.first.y < units.second.y {
-                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .bottom)
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .south)
             } else {
-                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .top)
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .north)
             }
         } else if units.first.y == units.second.y {
             // Same Row
             if units.first.x < units.second.x {
-                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .right)
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .east)
             } else {
-                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .left)
+                breakWall(&maze, x: units.first.x, y: units.first.y, direction: .west)
             }
         } else {
             fatalError()
         }
     }
     
-    func breakWall(_ maze: inout [[MazeUnit]], x: Int, y: Int, direction: MazeUnit.WallDirection) {
+    func breakWall(_ maze: inout [[MazeUnit]], x: Int, y: Int, direction: Direction) {
         maze[x][y].walls[direction]?.removeFromSuperlayer()
         maze[x][y].walls.removeValue(forKey: direction)
         
         switch direction {
-        case .top:
+        case .north:
             guard y - 1 >= 0 else { return }
-            if !maze[x][y-1].isMazeBorder {
-                maze[x][y-1].walls[.bottom]?.removeFromSuperlayer()
-                maze[x][y-1].walls.removeValue(forKey: .bottom)
-            }
-        case .bottom:
+//            if !maze[x][y-1].isMazeBorder {
+                maze[x][y-1].walls[.south]?.removeFromSuperlayer()
+                maze[x][y-1].walls.removeValue(forKey: .south)
+//            }
+        case .south:
             guard y + 1 < longEdge() else { return }
-            if !maze[x][y+1].isMazeBorder {
-                maze[x][y+1].walls[.top]?.removeFromSuperlayer()
-                maze[x][y+1].walls.removeValue(forKey: .top)
-            }
-        case .left:
+//            if !maze[x][y+1].isMazeBorder {
+                maze[x][y+1].walls[.north]?.removeFromSuperlayer()
+                maze[x][y+1].walls.removeValue(forKey: .north)
+//            }
+        case .west:
             guard x - 1 >= 0 else { return }
-            if !maze[x-1][y].isMazeBorder {
-                maze[x-1][y].walls[.right]?.removeFromSuperlayer()
-                maze[x-1][y].walls.removeValue(forKey: .right)
-            }
-        case .right:
+//            if !maze[x-1][y].isMazeBorder {
+                maze[x-1][y].walls[.east]?.removeFromSuperlayer()
+                maze[x-1][y].walls.removeValue(forKey: .east)
+//            }
+        case .east:
             guard x + 1 < shortEdge() else { return }
-            if !maze[x+1][y].isMazeBorder {
-                maze[x+1][y].walls[.left]?.removeFromSuperlayer()
-                maze[x+1][y].walls.removeValue(forKey: .left)
-            }
+//            if !maze[x+1][y].isMazeBorder {
+                maze[x+1][y].walls[.west]?.removeFromSuperlayer()
+                maze[x+1][y].walls.removeValue(forKey: .west)
+//            }
+            
+        default: return
         }
     }
 }
