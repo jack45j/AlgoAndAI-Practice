@@ -8,98 +8,6 @@
 import UIKit
 import Foundation
 
-enum Direction {
-    case west
-    case north
-    case east
-    case south
-    case westNorth
-    case northEast
-    case eastSouth
-    case southWest
-    
-    case same
-    
-    static var fourDirections: [Direction] {
-        return [.west, .north, .east, .south]
-    }
-    
-    var directions: [Direction] {
-        switch self {
-        case .west:         return [.west]
-        case .north:        return [.north]
-        case .east:         return [.east]
-        case .south:        return [.south]
-        case .westNorth:    return [.west, .north]
-        case .northEast:    return [.north, .east]
-        case .eastSouth:    return [.east, .south]
-        case .southWest:    return [.south, .west]
-        case .same:         return []
-        }
-    }
-    
-    var fourDirections: [Direction] {
-        return self.directions + Direction.fourDirections.filter({ !self.directions.contains($0) })
-    }
-}
-
-struct Coordinate: Hashable, Equatable {
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.x == rhs.x && lhs.y == rhs.y
-    }
-    
-    var x: Int
-    var y: Int
-    
-    func move(_ direction: Direction) -> Coordinate {
-        switch direction {
-        case .west:         return .init(x: self.x - 1, y: self.y)
-        case .north:        return .init(x: self.x, y: self.y - 1)
-        case .east:         return .init(x: self.x + 1, y: self.y)
-        case .south:        return .init(x: self.x, y: self.y + 1)
-        case .westNorth:    return .init(x: self.x - 1, y: self.y - 1)
-        case .northEast:    return .init(x: self.x + 1, y: self.y - 1)
-        case .eastSouth:    return .init(x: self.x + 1, y: self.y + 1)
-        case .southWest:    return .init(x: self.x - 1, y: self.y + 1)
-        case .same:         return self
-        }
-    }
-    
-    static func findDirection(start: Coordinate, dest: Coordinate) -> Direction {
-        guard start != dest else { return .same }
-        if start.x == dest.x {
-            if start.y < dest.y {
-                return .south
-            } else {
-                return .north
-            }
-        } else if start.y == dest.y {
-            if start.x < dest.x {
-                return .west
-            } else {
-                return .east
-            }
-        } else {
-            if start.x < dest.x {
-                // east side
-                if start.y < dest.y {
-                    return .eastSouth
-                } else {
-                    return .northEast
-                }
-            } else {
-                // west side
-                if start.y < dest.y {
-                    return .southWest
-                } else {
-                    return .westNorth
-                }
-            }
-        }
-    }
-}
-
 class PrimMazeGenerationViewController: UIViewController, ConfigurableType, MazeGeneratable {
     
     class func instantiate(config: MazeSizeGenerationConfigurations) -> PrimMazeGenerationViewController {
@@ -110,7 +18,7 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
     
     var config: MazeSizeGenerationConfigurations! = .init()
     
-    var dfs: DfsPathFinding?
+    var pathFindingModule: PathFindingAlgorithms?
     
     lazy var maze: [[MazeUnit]] = {
         var units: [[MazeUnit]] = []
@@ -131,39 +39,63 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        generateAndDrawMaze(maze: &maze)
+        generateAndDrawInitializeMaze(maze: &maze)
+        
+        startGenerateMaze()
     }
     
     private func addWallsToList(x: Int, y: Int) {
         Direction.fourDirections.forEach { dir in
             if let unit = self.find(x: x, y: y, of: dir),
                wallList[Set([maze[x][y], maze[unit.x][unit.y]])] != true,
-//               !unit.isMazeBorder,
                !unit.isVisited {
                 wallList[Set([maze[x][y], maze[unit.x][unit.y]])] = true
             }
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        let startPointX = Int(config.startPoint().x)
-//        let startPointY = Int(config.startPoint().y)
-//        let endPointX = Int(config.endPoint().x)
-//        let endPointY = Int(config.endPoint().y)
+    private func startPathFinding() {
+        let (startPoint, destinationPoint) = config.isRandomStartAndDestination ? generateRandomStartAndDestination() : (config.startPoint(), config.endPoint())
+        maze[startPoint.x][startPoint.y].isStartPoint = true
+        maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
+        maze[destinationPoint.x][destinationPoint.y].isDestination = true
+        maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
         
-        // Break start point left wall
-//        maze[startPointX][startPointY].view?.backgroundColor = .init(red: 1, green: 0, blue: 0, alpha: 0.3)
-//        maze[startPointX][startPointY].isMazeBorder = false
-//        maze[startPointX][startPointY].isStartPoint = true
-//        breakWall(&maze, x: startPointX, y: startPointY, direction: .left)
+        pathFindingModule = .init(maze: maze, startPoint: startPoint, destinationPoint: destinationPoint)
         
-        // Break End Point right wall
-//        maze[endPointX][endPointY].view?.backgroundColor = .init(red: 1, green: 0, blue: 0, alpha: 0.3)
-//        maze[endPointX][endPointY].isMazeBorder = false
-//        maze[endPointX][endPointY].isDestination = true
-//        breakWall(&maze, x: endPointX, y: endPointY, direction: .right)
+        pathFindingModule?.onPointDidVisit = { [weak self] coordinate in
+            if coordinate != startPoint && coordinate != destinationPoint {
+                self?.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
+            }
+        }
         
+        pathFindingModule?.onFindedPath = { path in
+            var idx = 0
+            func draw() {
+                guard idx < path.count else { return }
+                let coordinate = path[idx]
+                if coordinate != startPoint && coordinate != destinationPoint {
+                    UIView.animate(withDuration: 0.002, delay: 0) {
+                        self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
+                                                                                            green: CGFloat(Double(path.count - idx) / Double(path.count)),
+                                                                                            blue: 0, alpha: 1)
+                    } completion: { _ in
+                        idx += 1
+                        draw()
+                    }
+                } else {
+                    idx += 1
+                    draw()
+                }
+            }
+            
+            draw()
+        }
+        
+        pathFindingModule?.start()
+    }
+    
+    private func startGenerateMaze() {
         // 1. Pick a cell, mark it as part of the maze.
         // Add the walls of the cell to the wall list.
         let initCoordinate = (x: Int.random(in: 1..<shortEdge()), y: Int.random(in: 1..<longEdge()))
@@ -176,52 +108,8 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
             // 2. While there are walls in the list
             guard !self.wallList.isEmpty else {
                 t.invalidate()
-                let (startPoint, destinationPoint) = self.generateRandomStartAndDestination()
-                self.maze[startPoint.x][startPoint.y].isStartPoint = true
-                self.maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
-                self.maze[destinationPoint.x][destinationPoint.y].isDestination = true
-                self.maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
                 
-                self.dfs = DfsPathFinding(mazeData: self.maze, startPoint: startPoint, destinationPoint: destinationPoint)
-                
-                self.dfs?.onPointDidVisit = { coordinate in
-                    if coordinate != startPoint && coordinate != destinationPoint {
-                        self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .orange
-                    }
-                }
-                
-                self.dfs?.onFindedPath = { path in
-                    var idx = 0
-                    func draw() {
-                        guard idx < path.count else { return }
-                        let coordinate = path[idx]
-                        if coordinate != startPoint && coordinate != destinationPoint {
-                            UIView.animate(withDuration: 0.002, delay: 0) {
-                                self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .yellow
-                            } completion: { _ in
-                                idx += 1
-                                draw()
-                            }
-                        } else {
-                            idx += 1
-                            draw()
-                        }
-                    }
-                    
-                    draw()
-
-                    
-//                    for coordinate in path {
-//                        if coordinate != startPoint && coordinate != destinationPoint {
-//                            UIView.animate(withDuration: 2, delay: 0) {
-//                                self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .yellow
-//                            }
-//                        }
-//                    }
-                }
-                
-                self.dfs?.start()
-                
+                self.startPathFinding()
                 
                 return
             }
@@ -284,76 +172,4 @@ class Vertex {
     }
 }
 
-class DfsPathFinding {
-    var startPoint: Coordinate
-    var destinationPoint: Coordinate
-    var maze: [[MazeUnit]]
-    
-    var currentVertex: Vertex
-    
-    var paths: Vertex
-    
-    var visitedList: [Coordinate] = []
-    var frontierList: [Vertex] = []
-    
-//    var onPointWillVisit: ((Coordinate) -> Void)?
-    var onPointDidVisit: ((Coordinate) -> Void)?
-    var onFindedPath: (([Coordinate]) -> Void)?
-    
-    init(mazeData: [[MazeUnit]], startPoint: Coordinate, destinationPoint: Coordinate) {
-        self.maze = mazeData
-        self.startPoint = startPoint
-        self.destinationPoint = destinationPoint
-        self.paths = .init(coordinate: startPoint, depth: 0)
-        self.currentVertex = self.paths
-    }
-    
-    func visit(_ vertex: Vertex) {
-        frontierList.append(vertex)
-        visitedList.append(vertex.coordinate)
-        vertex.isVisited = true
-    }
-    
-    func start() {
-        // findingDirectionOrder
-        let findingDirections: [Direction] = Coordinate.findDirection(start: startPoint, dest: destinationPoint).fourDirections
-        
-        // start point
-        visit(currentVertex)
-        
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true) { [weak self] t in
-            guard let self = self else { return }
-            
-            guard let frontier = self.frontierList.last else { fatalError() }
-            self.currentVertex = frontier
-            self.frontierList.removeLast(1)
-            
-            for direction in findingDirections {
-                if let currentCoordinate = self.maze.move(from: self.currentVertex.coordinate, to: direction)?.coordinate {
-                    if !self.visitedList.contains(currentCoordinate) {
-                        let vertex = Vertex(coordinate: currentCoordinate, depth: self.currentVertex.depth + 1)
-                        vertex.parentNode = self.currentVertex
-                        self.currentVertex.adjacent.append(vertex)
-                        self.visit(vertex)
-                        self.onPointDidVisit?(vertex.coordinate)
-                    }
-                } else {
-                    // do nothing
-                }
-            }
-            
-            // Result
-            guard self.currentVertex.coordinate != self.destinationPoint else {
-                var path: [Coordinate] = [self.currentVertex.coordinate]
-                var pathVertex = self.currentVertex.parentNode
-                while let vertex = pathVertex {
-                    path.append(vertex.coordinate)
-                    pathVertex = vertex.parentNode
-                }
-                self.onFindedPath?(path)
-                t.invalidate()
-                return
-            }
-        }
-    }
-}
+

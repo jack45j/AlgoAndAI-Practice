@@ -8,6 +8,7 @@
 import Foundation
 
 struct MazeSizeGenerationConfigurations: MazeSizeConfigurable {
-    var edge1: Int = 10
-    var edge2: Int = 10
+    var edge1: Int = 50
+    var edge2: Int = 30
+    var isRandomStartAndDestination = false
 }

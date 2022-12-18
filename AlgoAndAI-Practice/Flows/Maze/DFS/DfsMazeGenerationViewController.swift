@@ -18,6 +18,8 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
     
     var config: MazeSizeGenerationConfigurations! = .init()
     
+    var dfs: DfsPathFinding?
+    
     lazy var maze: [[MazeUnit]] = {
         var units: [[MazeUnit]] = []
         var column: [MazeUnit] = []
@@ -36,31 +38,76 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        generateAndDrawMaze(maze: &maze)
+        generateAndDrawInitializeMaze(maze: &maze)
+    }
+    
+    private func generateRandomStartAndDestination() -> (start: Coordinate, destination: Coordinate) {
+        var startPoint: Coordinate = .init(x: 0, y: 0)
+        var destinationPoint: Coordinate = .init(x: 0, y: 0)
+        while destinationPoint == startPoint {
+            startPoint = .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<shortEdge()))
+            destinationPoint = .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<shortEdge()))
+        }
+        
+        return (startPoint, destinationPoint)
+    }
+    
+    private func startPathFinding() {
+        let (startPoint, destinationPoint) = config.isRandomStartAndDestination ? generateRandomStartAndDestination() : (config.startPoint(), config.endPoint())
+        maze[startPoint.x][startPoint.y].isStartPoint = true
+        maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
+        maze[destinationPoint.x][destinationPoint.y].isDestination = true
+        maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
+        
+        dfs = DfsPathFinding(mazeData: maze, startPoint: startPoint, destinationPoint: destinationPoint)
+        
+        dfs?.onPointDidVisit = { [weak self] coordinate in
+            if coordinate != startPoint && coordinate != destinationPoint {
+                self?.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
+            }
+        }
+        
+        dfs?.onFindedPath = { path in
+            var idx = 0
+            func draw() {
+                guard idx < path.count else { return }
+                let coordinate = path[idx]
+                if coordinate != startPoint && coordinate != destinationPoint {
+                    UIView.animate(withDuration: 0.002, delay: 0) {
+                        self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
+                                                                                            green: CGFloat(Double(path.count - idx) / Double(path.count)),
+                                                                                            blue: 0, alpha: 1)
+                    } completion: { _ in
+                        idx += 1
+                        draw()
+                    }
+                } else {
+                    idx += 1
+                    draw()
+                }
+            }
+            
+            draw()
+        }
+        
+        dfs?.start()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let startPointX = Int(config.startPoint().x)
-        let startPointY = Int(config.startPoint().y)
-        let endPointX = Int(config.endPoint().x)
-        let endPointY = Int(config.endPoint().y)
-        
-        // Break start point left wall
-        maze[startPointX][startPointY].view?.backgroundColor = .white
-        breakWall(&maze, x: startPointX, y: startPointY, direction: .west)
-        
-        // Break End Point right wall
-        maze[endPointX][endPointY].view?.backgroundColor = .white
-        maze[endPointX][endPointY].isMazeBorder = false
-        breakWall(&maze, x: endPointX, y: endPointY, direction: .east)
         
         // push start unit into stack and start recursive
-        mazeStack.append(maze[startPointX][startPointY])
+        mazeStack.append(maze[0][0])
         
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true) { [weak self] t in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.0001, repeats: true) { [weak self] t in
             guard let self = self else { t.invalidate(); return }
-            guard !self.mazeStack.isEmpty else { t.invalidate(); return }
+            guard !self.mazeStack.isEmpty else {
+                t.invalidate()
+                
+                self.startPathFinding()
+                
+                return
+            }
             
             guard let x = self.mazeStack.last?.x,
                   let y = self.mazeStack.last?.y else { t.invalidate(); return }
@@ -69,7 +116,7 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
             
             Direction.fourDirections.forEach { dir in
                 if let unit = self.find(x: x, y: y, of: dir),
-                   !unit.isMazeBorder,
+//                   !unit.isMazeBorder,
                    !self.mazeStack.map({ $0.id }).contains(unit.id),
                    !unit.isVisited {
                     

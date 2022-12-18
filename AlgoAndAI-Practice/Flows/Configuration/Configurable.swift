@@ -57,6 +57,7 @@ protocol GAConfigurationType: Configurable {
 protocol MazeSizeConfigurable: Configurable {
     var edge1: Int { get set }
     var edge2: Int { get set }
+    var isRandomStartAndDestination: Bool { get set }
 }
 
 extension MazeSizeConfigurable {
@@ -68,11 +69,11 @@ extension MazeSizeConfigurable {
         return min(edge1, edge2)
     }
     
-    func startPoint() -> CGPoint {
+    func startPoint() -> Coordinate {
         return .init(x: 0, y: 0)
     }
     
-    func endPoint() -> CGPoint {
+    func endPoint() -> Coordinate {
         return .init(x: shortEdge() - 1, y: longEdge() - 1)
     }
 }

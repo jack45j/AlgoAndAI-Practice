@@ -7,6 +7,7 @@
 
 import Reusable
 import UIKit
+import BEMCheckBox
 
 class MazeSizeConfigTableViewCell: UITableViewCell, NibReusable {
 
@@ -16,13 +17,19 @@ class MazeSizeConfigTableViewCell: UITableViewCell, NibReusable {
     @IBOutlet weak var edge1SliderValueLabel: UILabel!
     @IBOutlet weak var edge2SliderValueLabel: UILabel!
     
+    @IBOutlet weak var isRandomStartAndDestCheckBox: BEMCheckBox!
+    
     var onChangeEdge1Size: ((Int) -> Void)?
     var onChangeEdge2Size: ((Int) -> Void)?
+    var onChangeRandomStartAndDest: ((Bool) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         edge1Slider.addTarget(self, action: #selector(edge1SliderValueDidChange(slider:event:)), for: .valueChanged)
         edge2Slider.addTarget(self, action: #selector(edge2SliderValueDidChange(slider:event:)), for: .valueChanged)
+        
+        isRandomStartAndDestCheckBox.delegate = self
+        isRandomStartAndDestCheckBox.animationDuration = 0.1
     }
     
     @objc func edge1SliderValueDidChange(slider: UISlider, event: UIEvent) {
@@ -45,10 +52,17 @@ class MazeSizeConfigTableViewCell: UITableViewCell, NibReusable {
         }
     }
     
-    func setDefaultState(edge1: Int, edge2: Int) {
+    func setDefaultState(edge1: Int, edge2: Int, isRandomStartAndDest: Bool) {
         edge1Slider.setValue(Float(edge1), animated: true)
         edge2Slider.setValue(Float(edge2), animated: true)
         edge1SliderValueLabel.text = "\(edge1)"
         edge2SliderValueLabel.text = "\(edge2)"
+        isRandomStartAndDestCheckBox.setOn(isRandomStartAndDest)
+    }
+}
+
+extension MazeSizeConfigTableViewCell: BEMCheckBoxDelegate {
+    func didTap(_ checkBox: BEMCheckBox) {
+        onChangeRandomStartAndDest?(checkBox.on)
     }
 }

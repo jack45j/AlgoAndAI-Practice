@@ -23,7 +23,7 @@ extension MazeGeneratable {
 }
 
 extension MazeGeneratable where Self: UIViewController {
-    func generateAndDrawMaze(maze: inout [[MazeUnit]]) {
+    func generateAndDrawInitializeMaze(maze: inout [[MazeUnit]]) {
         let width = shortEdge()
         let height = longEdge()
         let maxWidth = min(view.frame.width - 60, view.frame.height - 60) / CGFloat(min(width, height))

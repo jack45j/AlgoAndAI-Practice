@@ -253,8 +253,15 @@ extension ConfigurationViewController: UITableViewDataSource {
                 }
             }
             
+            mazeSizeConfigCell.onChangeRandomStartAndDest = { [unowned self] isRandom in
+                if var config = self.config as? MazeSizeConfigurable {
+                    config.isRandomStartAndDestination = isRandom
+                    self.config = config
+                }
+            }
+            
             if let config = self.config as? MazeSizeConfigurable {
-                mazeSizeConfigCell.setDefaultState(edge1: config.edge1, edge2: config.edge2)
+                mazeSizeConfigCell.setDefaultState(edge1: config.edge1, edge2: config.edge2, isRandomStartAndDest: config.isRandomStartAndDestination)
             }
             
             return mazeSizeConfigCell
