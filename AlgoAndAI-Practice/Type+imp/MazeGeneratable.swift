@@ -23,13 +23,13 @@ extension MazeGeneratable {
 }
 
 extension MazeGeneratable where Self: UIViewController {
-    func generateAndDrawInitializeMaze(maze: inout [[MazeUnit]]) {
+    func generateAndDrawInitializeMaze(in view: UIView, maze: inout [[MazeUnit]]) {
         let width = shortEdge()
         let height = longEdge()
-        let maxWidth = min(view.frame.width - 60, view.frame.height - 60) / CGFloat(min(width, height))
-        let maxHeight = max(view.frame.width - 60, view.frame.height - 60) / CGFloat(max(width, height))
+        let maxWidth = min(view.bounds.width - 60, view.bounds.height - 60) / CGFloat(min(width, height))
+        let maxHeight = max(view.bounds.width - 60, view.bounds.height - 60) / CGFloat(max(width, height))
         let unitSize = min(maxWidth, maxHeight)
-        let center = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        let center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
         
         for x in 0..<width {
             for y in 0..<height {
@@ -38,7 +38,7 @@ extension MazeGeneratable where Self: UIViewController {
                                           y: center.y + CGFloat((height / 2) - height + y) * unitSize)
                 let unitView = UIView(frame: .init(origin: originPoint, size: .init(width: unitSize, height: unitSize)))
                 unitView.backgroundColor = .lightGray
-                self.view.addSubview(unitView)
+                view.addSubview(unitView)
                 maze[x][y].isMazeBorder = isBorder
                 maze[x][y].view = unitView
                 maze[x][y].coordinate = .init(x: x, y: y)

@@ -38,7 +38,7 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        generateAndDrawInitializeMaze(maze: &maze)
+        generateAndDrawInitializeMaze(in: view, maze: &maze)
     }
     
     private func generateRandomStartAndDestination() -> (start: Coordinate, destination: Coordinate) {

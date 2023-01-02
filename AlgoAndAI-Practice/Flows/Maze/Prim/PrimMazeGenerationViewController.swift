@@ -6,21 +6,38 @@
 //
 
 import UIKit
+import Reusable
 import Foundation
 
-class PrimMazeGenerationViewController: UIViewController, ConfigurableType, MazeGeneratable {
+class PrimMazeGenerationViewController: UIViewController, ConfigurableType, MazeGeneratable, StoryboardBased {
     
     class func instantiate(config: MazeSizeGenerationConfigurations) -> PrimMazeGenerationViewController {
-        let viewController = PrimMazeGenerationViewController()
+        let viewController = PrimMazeGenerationViewController.instantiate()
         viewController.config = config
         return viewController
     }
     
-    var config: MazeSizeGenerationConfigurations! = .init()
+    @IBOutlet weak var aboveContainerView: UIView!
+    @IBOutlet weak var belowContainerView: UIView!
     
+    var config: MazeSizeGenerationConfigurations! = .init()
     var pathFindingModule: PathFindingAlgorithms?
+    var pathFindingModule2: PathFindingAlgorithms?
     
     lazy var maze: [[MazeUnit]] = {
+        var units: [[MazeUnit]] = []
+        var column: [MazeUnit] = []
+        for x in 1...config.shortEdge() {
+            for y in 1...config.longEdge() {
+                column.append(.init(coordinate: .init(x: x, y: y)))
+            }
+            units.append(column)
+            column = []
+        }
+        return units
+    }()
+    
+    lazy var maze2: [[MazeUnit]] = {
         var units: [[MazeUnit]] = []
         var column: [MazeUnit] = []
         for x in 1...config.shortEdge() {
@@ -39,8 +56,9 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        generateAndDrawInitializeMaze(maze: &maze)
         
+        generateAndDrawInitializeMaze(in: aboveContainerView, maze: &maze)
+        generateAndDrawInitializeMaze(in: belowContainerView, maze: &maze2)
         startGenerateMaze()
     }
     
@@ -54,29 +72,28 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
         }
     }
     
-    private func startPathFinding() {
-        let (startPoint, destinationPoint) = config.isRandomStartAndDestination ? generateRandomStartAndDestination() : (config.startPoint(), config.endPoint())
+    private func startPathFinding(in maze: inout [[MazeUnit]], startPoint: Coordinate, destinationPoint: Coordinate) {
         maze[startPoint.x][startPoint.y].isStartPoint = true
         maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
         maze[destinationPoint.x][destinationPoint.y].isDestination = true
         maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
         
-        pathFindingModule = .init(maze: maze, startPoint: startPoint, destinationPoint: destinationPoint)
+        pathFindingModule = .init(maze: maze, startPoint: startPoint, destinationPoint: destinationPoint, algo: .dfs)
         
-        pathFindingModule?.onPointDidVisit = { [weak self] coordinate in
+        pathFindingModule?.onPointDidVisit = { [weak self, maze] coordinate in
             if coordinate != startPoint && coordinate != destinationPoint {
-                self?.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
+                maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
             }
         }
         
-        pathFindingModule?.onFindedPath = { path in
+        pathFindingModule?.onFindedPath = { [weak self, maze] path in
             var idx = 0
             func draw() {
                 guard idx < path.count else { return }
                 let coordinate = path[idx]
                 if coordinate != startPoint && coordinate != destinationPoint {
                     UIView.animate(withDuration: 0.002, delay: 0) {
-                        self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
+                        maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
                                                                                             green: CGFloat(Double(path.count - idx) / Double(path.count)),
                                                                                             blue: 0, alpha: 1)
                     } completion: { _ in
@@ -95,11 +112,52 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
         pathFindingModule?.start()
     }
     
+    private func startPathFinding2(in maze: inout [[MazeUnit]], startPoint: Coordinate, destinationPoint: Coordinate) {
+        maze[startPoint.x][startPoint.y].isStartPoint = true
+        maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
+        maze[destinationPoint.x][destinationPoint.y].isDestination = true
+        maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
+        
+        pathFindingModule2 = .init(maze: maze, startPoint: startPoint, destinationPoint: destinationPoint, algo: .astar)
+        
+        pathFindingModule2?.onPointDidVisit = { [weak self, maze] coordinate in
+            if coordinate != startPoint && coordinate != destinationPoint {
+                maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
+            }
+        }
+        
+        pathFindingModule2?.onFindedPath = { [weak self, maze] path in
+            var idx = 0
+            func draw() {
+                guard idx < path.count else { return }
+                let coordinate = path[idx]
+                if coordinate != startPoint && coordinate != destinationPoint {
+                    UIView.animate(withDuration: 0.002, delay: 0) {
+                        maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
+                                                                                            green: CGFloat(Double(path.count - idx) / Double(path.count)),
+                                                                                            blue: 0, alpha: 1)
+                    } completion: { _ in
+                        idx += 1
+                        draw()
+                    }
+                } else {
+                    idx += 1
+                    draw()
+                }
+            }
+            
+            draw()
+        }
+        
+        pathFindingModule2?.start()
+    }
+    
     private func startGenerateMaze() {
         // 1. Pick a cell, mark it as part of the maze.
         // Add the walls of the cell to the wall list.
         let initCoordinate = (x: Int.random(in: 1..<shortEdge()), y: Int.random(in: 1..<longEdge()))
         maze[initCoordinate.x][initCoordinate.y].isVisited = true
+        maze2[initCoordinate.x][initCoordinate.y].isVisited = true
         addWallsToList(x: initCoordinate.x, y: initCoordinate.y)
         
         let timer = Timer.scheduledTimer(withTimeInterval: 0.0001, repeats: true) { [weak self] t in
@@ -109,7 +167,10 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
             guard !self.wallList.isEmpty else {
                 t.invalidate()
                 
-                self.startPathFinding()
+                let (startPoint, destinationPoint) = self.config.isRandomStartAndDestination ? self.generateRandomStartAndDestination() : (self.config.startPoint(), self.config.endPoint())
+                
+                self.startPathFinding(in: &self.maze, startPoint: startPoint, destinationPoint: destinationPoint)
+                self.startPathFinding2(in: &self.maze2, startPoint: startPoint, destinationPoint: destinationPoint)
                 
                 return
             }
@@ -136,7 +197,9 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
             }
             
             self.maze[unVisitedUnit.x][unVisitedUnit.y].isVisited = true
+            self.maze2[unVisitedUnit.x][unVisitedUnit.y].isVisited = true
             self.breakWall(in: &self.maze, between: (first: unitsArray[0], second: unitsArray[1]))
+            self.breakWall(in: &self.maze2, between: (first: unitsArray[0], second: unitsArray[1]))
             
             // 6. Add the neighboring walls of the cell to the wall list
             self.addWallsToList(x: unVisitedUnit.x, y: unVisitedUnit.y)

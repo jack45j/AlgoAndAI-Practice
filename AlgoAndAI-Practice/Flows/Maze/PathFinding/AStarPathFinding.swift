@@ -1,20 +1,18 @@
 //
-//  PathFindingAlgorithm.swift
+//  AStarPathFinding.swift
 //  AlgoAndAI-Practice
 //
-//  Created by Yi-Cheng Lin on 2022/12/18.
+//  Created by Yi-Cheng Lin on 2022/12/19.
 //
 
 import Foundation
 
-class DfsPathFinding: PathFindingOutput {
+class AStarPathFinding: PathFindingOutput {
     var startPoint: Coordinate
     var destinationPoint: Coordinate
     var maze: [[MazeUnit]]
     
     var currentVertex: Vertex
-    
-    var paths: Vertex
     
     var visitedList: [Coordinate] = []
     var frontierList: [Vertex] = []
@@ -26,8 +24,7 @@ class DfsPathFinding: PathFindingOutput {
         self.maze = mazeData
         self.startPoint = startPoint
         self.destinationPoint = destinationPoint
-        self.paths = .init(coordinate: startPoint, depth: 0)
-        self.currentVertex = self.paths
+        self.currentVertex = .init(coordinate: startPoint, depth: 0)
     }
     
     func visit(_ vertex: Vertex) {
@@ -36,19 +33,26 @@ class DfsPathFinding: PathFindingOutput {
         vertex.isVisited = true
     }
     
+    private func estimatedCost(_ coordinate: Coordinate) -> Int {
+        return abs(destinationPoint.x - coordinate.x) + abs(destinationPoint.y - coordinate.y)
+    }
+    
     func start() {
         // findingDirectionOrder
-        let findingDirections: [Direction] = Coordinate.findDirection(start: startPoint, dest: destinationPoint).fourDirections
+        let findingDirections: [Direction] = Direction.fourDirections
+//        let findingDirections: [Direction] = Coordinate.findDirection(start: startPoint, dest: destinationPoint).fourDirections
         
         // start point
         visit(currentVertex)
         
         let _ = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true) { [weak self] t in
             guard let self = self else { return }
+            self.frontierList = self.frontierList.sorted(by: { ($0.depth + self.estimatedCost($0.coordinate)) < ($1.depth + self.estimatedCost($1.coordinate)) })
             
-            guard let frontier = self.frontierList.last else { fatalError() }
+            guard let frontier = self.frontierList.first else { fatalError() }
+            
             self.currentVertex = frontier
-            self.frontierList.removeLast(1)
+            self.frontierList.removeFirst(1)
             
             for direction in findingDirections {
                 if let currentCoordinate = self.maze.move(from: self.currentVertex.coordinate, to: direction)?.coordinate {
@@ -77,41 +81,5 @@ class DfsPathFinding: PathFindingOutput {
                 return
             }
         }
-    }
-}
-
-protocol PathFindingOutput {
-    var onPointDidVisit: ((Coordinate) -> Void)? { get set }
-    var onFindedPath: (([Coordinate]) -> Void)? { get set }
-}
-
-import UIKit
-
-class PathFindingAlgorithms: PathFindingOutput {
-    
-    var onPointDidVisit: ((Coordinate) -> Void)?
-    var onFindedPath: (([Coordinate]) -> Void)?
-    
-    
-    var maze: [[MazeUnit]]
-    var startPoint: Coordinate
-    var destinationPoint: Coordinate
-    
-    lazy var dfs = DfsPathFinding(mazeData: maze, startPoint: startPoint, destinationPoint: destinationPoint)
-    
-    init(maze: [[MazeUnit]], startPoint: Coordinate, destinationPoint: Coordinate) {
-        self.maze = maze
-        self.startPoint = startPoint
-        self.destinationPoint = destinationPoint
-    }
-    
-    func start() {
-        startPathFinding()
-    }
-    
-    private func startPathFinding() {
-        dfs.onPointDidVisit = onPointDidVisit
-        dfs.onFindedPath = onFindedPath
-        dfs.start()
     }
 }

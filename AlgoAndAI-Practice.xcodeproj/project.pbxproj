@@ -43,6 +43,9 @@
 		46BA97D8294E322A00FB40F1 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BA97D7294E322A00FB40F1 /* Direction.swift */; };
 		46BA97DA294E324D00FB40F1 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BA97D9294E324D00FB40F1 /* Coordinate.swift */; };
 		46BA97DC294E356300FB40F1 /* PathFindingAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BA97DB294E356300FB40F1 /* PathFindingAlgorithm.swift */; };
+		46BA97DE29501A0100FB40F1 /* DfsPathFinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BA97DD29501A0100FB40F1 /* DfsPathFinding.swift */; };
+		46BA97E12950270600FB40F1 /* AStarPathFinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BA97E02950270600FB40F1 /* AStarPathFinding.swift */; };
+		46BA97E329502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46BA97E229502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard */; };
 		46DB96D029325E3500CC8889 /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */; };
 		46DB96D32932610D00CC8889 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB96D22932610D00CC8889 /* Configurable.swift */; };
 		46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */; };
@@ -119,6 +122,9 @@
 		46BA97D7294E322A00FB40F1 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		46BA97D9294E324D00FB40F1 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		46BA97DB294E356300FB40F1 /* PathFindingAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFindingAlgorithm.swift; sourceTree = "<group>"; };
+		46BA97DD29501A0100FB40F1 /* DfsPathFinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DfsPathFinding.swift; sourceTree = "<group>"; };
+		46BA97E02950270600FB40F1 /* AStarPathFinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinding.swift; sourceTree = "<group>"; };
+		46BA97E229502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PrimMazeGenerationViewController.storyboard; sourceTree = "<group>"; };
 		46DB96CF29325E3500CC8889 /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
 		46DB96D22932610D00CC8889 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
 		46DB96D4293262E700CC8889 /* ConfigurationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ConfigurationViewController.storyboard; sourceTree = "<group>"; };
@@ -316,9 +322,19 @@
 				4656EBC7293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift */,
 				4656EBBC293A2EF800DC6852 /* DFS */,
 				DB98049F294C0FC1003C1C95 /* Prim */,
-				46BA97DB294E356300FB40F1 /* PathFindingAlgorithm.swift */,
+				46BA97DF29501A3600FB40F1 /* PathFinding */,
 			);
 			path = Maze;
+			sourceTree = "<group>";
+		};
+		46BA97DF29501A3600FB40F1 /* PathFinding */ = {
+			isa = PBXGroup;
+			children = (
+				46BA97DB294E356300FB40F1 /* PathFindingAlgorithm.swift */,
+				46BA97DD29501A0100FB40F1 /* DfsPathFinding.swift */,
+				46BA97E02950270600FB40F1 /* AStarPathFinding.swift */,
+			);
+			path = PathFinding;
 			sourceTree = "<group>";
 		};
 		46DB96D129325EF200CC8889 /* Configuration */ = {
@@ -354,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
+				46BA97E229502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard */,
 			);
 			path = Prim;
 			sourceTree = "<group>";
@@ -517,6 +534,7 @@
 				46DB96D5293262E700CC8889 /* ConfigurationViewController.storyboard in Resources */,
 				46DB96E929333A5E00CC8889 /* ACOConfigurationTableViewCell.xib in Resources */,
 				DBD8D39428D6D81800005C10 /* LaunchScreen.storyboard in Resources */,
+				46BA97E329502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard in Resources */,
 				DBD8D39128D6D81800005C10 /* Assets.xcassets in Resources */,
 				DBD8D38F28D6D81600005C10 /* MainTableViewController.storyboard in Resources */,
 				46DB96E52932B5E700CC8889 /* GenerationLimitationTableViewCell.xib in Resources */,
@@ -554,6 +572,7 @@
 				DBCBEBA32934AE22005404BD /* GAConfigurationTableViewCell.swift in Sources */,
 				463CA16F292A2CA6009F6488 /* MainTableViewOutput.swift in Sources */,
 				DBD8D38828D6D81600005C10 /* AppDelegate.swift in Sources */,
+				46BA97DE29501A0100FB40F1 /* DfsPathFinding.swift in Sources */,
 				463CA17F292A3935009F6488 /* AcoModuleFactoryImp.swift in Sources */,
 				46DB96EF2938D7EF00CC8889 /* CGPoint+additions.swift in Sources */,
 				46DB96E42932B5E700CC8889 /* GenerationLimitationTableViewCell.swift in Sources */,
@@ -567,6 +586,7 @@
 				46BA97DA294E324D00FB40F1 /* Coordinate.swift in Sources */,
 				463CA17B292A37D6009F6488 /* AcoViewControllerOutput.swift in Sources */,
 				4656EBC6293A338D00DC6852 /* MazeSizeConfigurableGenerationCoordinatorOutput.swift in Sources */,
+				46BA97E12950270600FB40F1 /* AStarPathFinding.swift in Sources */,
 				4656EBC4293A330300DC6852 /* MazeSizeConfigurableGenerationModuleFactoryImp.swift in Sources */,
 				DBCBEB9E29349C29005404BD /* GAViewControllerOutput.swift in Sources */,
 				4656EBC8293A33B500DC6852 /* MazeSizeConfigurableGenerationCoordinator.swift in Sources */,
