@@ -235,4 +235,38 @@ class Vertex {
     }
 }
 
-
+final class PrimMazeGenerator<MazeUnit: MazeUnitType>: MazeSizeConfigurable & MazeGenerationAlgorithm {
+    var edge1: Int
+    var edge2: Int
+    var isRandomStartAndDestination: Bool
+    var maze: [[MazeUnit]]
+    
+    var onInitMaze: (([[MazeUnit]]) -> Void)?
+    var onGeneratedUnit: ((MazeUnit) -> Void)?
+    var onFinishMaze: (([[MazeUnit]]) -> Void)?
+    
+    init(edge1: Int, edge2: Int, isRandomStartAndDestination: Bool) {
+        self.edge1 = edge1
+        self.edge2 = edge2
+        self.isRandomStartAndDestination = isRandomStartAndDestination
+        self.maze = initMaze()
+    }
+    
+    private func initMaze() -> [[MazeUnit]] {
+        var units: [[MazeUnit]] = []
+        var column: [MazeUnit] = []
+        for x in 1...min(edge1, edge2) {
+            for y in 1...max(edge1, edge2) {
+                column.append(.init(coordinate: .init(x: x, y: y)))
+            }
+            units.append(column)
+            column = []
+        }
+        onInitMaze?(units)
+        return units
+    }
+    
+    func start() {
+        
+    }
+}

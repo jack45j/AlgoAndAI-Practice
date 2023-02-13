@@ -7,12 +7,12 @@
 
 import Foundation
 
+enum MazeGenerationMethod {
+    case dfs
+    case prim
+}
+
 class MazeSizeConfigurableGenerationCoordinator: BaseCoordinator, MazeSizeConfigurableGenerationCoordinatorOutput {
-    
-    enum MazeGenerationMethod {
-        case dfs
-        case prim
-    }
     
     private let router: Router
     private let factory: MazeSizeConfigurableGenerationModuleFactory

@@ -139,3 +139,22 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeG
     }
 }
 
+final class DfsMazeGenerator<MazeUnit: MazeUnitType>: MazeSizeConfigurable & MazeGenerationAlgorithm {
+    var edge1: Int
+    var edge2: Int
+    var isRandomStartAndDestination: Bool
+    
+    var onInitMaze: (([[MazeUnit]]) -> Void)?
+    var onGeneratedUnit: ((MazeUnit) -> Void)?
+    var onFinishMaze: (([[MazeUnit]]) -> Void)?
+    
+    init(edge1: Int, edge2: Int, isRandomStartAndDestination: Bool) {
+        self.edge1 = edge1
+        self.edge2 = edge2
+        self.isRandomStartAndDestination = isRandomStartAndDestination
+    }
+    
+    func start() {
+        
+    }
+}
