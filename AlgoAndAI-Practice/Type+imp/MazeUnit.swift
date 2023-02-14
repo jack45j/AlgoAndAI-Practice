@@ -72,21 +72,31 @@ final class MazeConfigurator<T: MazeSizeConfigurable & MazeGenerationAlgorithm> 
     }
 }
 
+extension Array where Element == [any MazeUnitType] {
+    func unit(_ coordinate: Coordinate) -> any MazeUnitType {
+        return self[coordinate.x][coordinate.y]
+    }
 
-
-
-
-
-
-//extension Array where Element == [MazeUnit] {
-//    func unit(_ coordinate: Coordinate) -> MazeUnit {
-//        return self[coordinate.x][coordinate.y]
-//    }
-//
-//    func move(from unit: Coordinate, to direction: Direction) -> MazeUnit? {
-//        guard !self[unit.x][unit.y].walls.keys.contains(direction) else {
-//            return nil
-//        }
-//        return self[unit.move(direction).x][unit.move(direction).y]
-//    }
-//}
+    func move(from unit: Coordinate, to direction: Direction) -> (any MazeUnitType)? {
+        switch direction {
+        case .north:
+            if self[unit.x][unit.y].hasNorthWall {
+                return nil
+            }
+        case .east:
+            if self[unit.x][unit.y].hasEastWall {
+                return nil
+            }
+        case .south:
+            if self[unit.x][unit.y].hasSouthWall {
+                return nil
+            }
+        case .west:
+            if self[unit.x][unit.y].hasWestWall {
+                return nil
+            }
+        default: return nil
+        }
+        return self[unit.move(direction).x][unit.move(direction).y]
+    }
+}

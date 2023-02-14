@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46174EBE299BE053001928D7 /* PrimMazeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46174EBD299BE053001928D7 /* PrimMazeGenerator.swift */; };
 		463CA143292A1CB0009F6488 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CA142292A1CAF009F6488 /* Coordinator.swift */; };
 		463CA145292A1CDB009F6488 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CA144292A1CDB009F6488 /* BaseView.swift */; };
 		463CA147292A1CEC009F6488 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CA146292A1CEC009F6488 /* Presentable.swift */; };
@@ -87,6 +88,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		46174EBD299BE053001928D7 /* PrimMazeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimMazeGenerator.swift; sourceTree = "<group>"; };
 		463CA142292A1CAF009F6488 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		463CA144292A1CDB009F6488 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		463CA146292A1CEC009F6488 /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 			children = (
 				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
 				46BA97E229502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard */,
+				46174EBD299BE053001928D7 /* PrimMazeGenerator.swift */,
 			);
 			path = Prim;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				46DB96D32932610D00CC8889 /* Configurable.swift in Sources */,
 				46DB96D829326B7300CC8889 /* PlacementConfigTableViewCell.swift in Sources */,
 				DB8C460129345C70000D345D /* ConfigurationViewControllerOutput.swift in Sources */,
+				46174EBE299BE053001928D7 /* PrimMazeGenerator.swift in Sources */,
 				463CA177292A339D009F6488 /* MainTableCoordinatorFactory.swift in Sources */,
 				DBCBEBA32934AE22005404BD /* GAConfigurationTableViewCell.swift in Sources */,
 				463CA16F292A2CA6009F6488 /* MainTableViewOutput.swift in Sources */,

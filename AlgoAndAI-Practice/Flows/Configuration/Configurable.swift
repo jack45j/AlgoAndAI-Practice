@@ -70,10 +70,19 @@ extension MazeSizeConfigurable {
     }
     
     func startPoint() -> Coordinate {
-        return .init(x: 0, y: 0)
+        if isRandomStartAndDestination {
+            return .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<longEdge()))
+        } else {
+            return .init(x: 0, y: 0)
+        }
     }
     
     func endPoint() -> Coordinate {
-        return .init(x: shortEdge() - 1, y: longEdge() - 1)
+        if isRandomStartAndDestination {
+            let tempEndPoint = Coordinate(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<longEdge()))
+            return tempEndPoint != startPoint() ? tempEndPoint : endPoint()
+        } else {
+            return .init(x: shortEdge() - 1, y: longEdge() - 1)
+        }
     }
 }

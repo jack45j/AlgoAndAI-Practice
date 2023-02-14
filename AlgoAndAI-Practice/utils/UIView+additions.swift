@@ -32,29 +32,34 @@ extension UIView {
         return border
     }
     
-    @discardableResult
-    func drawBorder(_ unit: any MazeUnitType, withColor color: CGColor, andThickness thickness: CGFloat = 1) -> CALayer {
-        
-        let border = CALayer()
-        border.backgroundColor = color
+    func drawBorder(_ unit: any MazeUnitType, withColor color: CGColor, andThickness thickness: CGFloat = 1) {
         
         if unit.hasNorthWall {
+            let border = CALayer()
+            border.backgroundColor = color
             border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: thickness)
+            layer.addSublayer(border)
         }
         
         if unit.hasEastWall {
+            let border = CALayer()
+            border.backgroundColor = color
             border.frame = CGRect(x: bounds.maxX, y: bounds.minY, width: thickness, height: bounds.height)
+            layer.addSublayer(border)
         }
         
         if unit.hasSouthWall {
+            let border = CALayer()
+            border.backgroundColor = color
             border.frame = CGRect(x: bounds.minX, y: bounds.maxY, width: bounds.width, height: thickness)
+            layer.addSublayer(border)
         }
         
         if unit.hasWestWall {
+            let border = CALayer()
+            border.backgroundColor = color
             border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: thickness, height: bounds.height)
+            layer.addSublayer(border)
         }
-        
-        layer.addSublayer(border)
-        return border
     }
 }
