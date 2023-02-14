@@ -8,11 +8,14 @@
 import UIKit
 import Foundation
 
-protocol MazeUnitType: Identifiable {
-    var id: UUID { get }
-    var x: Int { get }
-    var y: Int { get }
+protocol MazeUnitType: Identifiable, Hashable {
+    var id: UUID { get set }
+    var x: Int { get set }
+    var y: Int { get set }
     var walls: Int8 { get set }
+    var isVisited: Bool { get set }
+    
+    init(x: Int, y: Int)
 }
 
 extension MazeUnitType {
@@ -34,7 +37,6 @@ extension MazeUnitType {
 }
 
 struct CustomMazeUnit: MazeUnitType {
-    
     var id = UUID()
     var x: Int
     var y: Int
@@ -44,15 +46,18 @@ struct CustomMazeUnit: MazeUnitType {
     var isStartPoint = false
     var isDestination = false
     var walls: Int8 = 0b1111
+    
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
 }
 
 protocol MazeGenerationAlgorithm {
     associatedtype MazeUnit: MazeUnitType
     func start()
-    
-    var onInitMaze: (([[MazeUnit]]) -> Void)? { get set }
-    var onGeneratedUnit: ((MazeUnit) -> Void)? { get set }
-    var onFinishMaze: (([[MazeUnit]]) -> Void)? { get set }
+    var directions: [(dx: Int, dy: Int)] { get }
+    var walls: [(x1: Int, x2: Int, y1: Int, y2: Int)] { get set }
 }
 
 final class MazeConfigurator<T: MazeSizeConfigurable & MazeGenerationAlgorithm> {
@@ -60,6 +65,9 @@ final class MazeConfigurator<T: MazeSizeConfigurable & MazeGenerationAlgorithm> 
     
     init(generator: T) {
         self.generator = generator
+    }
+    
+    func start() {
         self.generator.start()
     }
 }

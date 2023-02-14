@@ -31,4 +31,30 @@ extension UIView {
         layer.addSublayer(border)
         return border
     }
+    
+    @discardableResult
+    func drawBorder(_ unit: any MazeUnitType, withColor color: CGColor, andThickness thickness: CGFloat = 1) -> CALayer {
+        
+        let border = CALayer()
+        border.backgroundColor = color
+        
+        if unit.hasNorthWall {
+            border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: thickness)
+        }
+        
+        if unit.hasEastWall {
+            border.frame = CGRect(x: bounds.maxX, y: bounds.minY, width: thickness, height: bounds.height)
+        }
+        
+        if unit.hasSouthWall {
+            border.frame = CGRect(x: bounds.minX, y: bounds.maxY, width: bounds.width, height: thickness)
+        }
+        
+        if unit.hasWestWall {
+            border.frame = CGRect(x: bounds.minX, y: bounds.minY, width: thickness, height: bounds.height)
+        }
+        
+        layer.addSublayer(border)
+        return border
+    }
 }
