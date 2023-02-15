@@ -69,6 +69,7 @@ extension MazeSizeConfigurable {
         return min(edge1, edge2)
     }
     
+    // FIXME: -
     func startPoint() -> Coordinate {
         if isRandomStartAndDestination {
             return .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<longEdge()))
@@ -77,6 +78,7 @@ extension MazeSizeConfigurable {
         }
     }
     
+    // FIXME: -
     func endPoint() -> Coordinate {
         if isRandomStartAndDestination {
             let tempEndPoint = Coordinate(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<longEdge()))

@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Reusable
 import Foundation
 
-class DfsMazeGenerationViewController: UIViewController, ConfigurableType {// , MazeGeneratable {
+class DfsMazeGenerationViewController: UIViewController, ConfigurableType, MazeGeneratable {
     
     class func instantiate(config: MazeSizeGenerationConfigurations) -> DfsMazeGenerationViewController {
         let viewController = DfsMazeGenerationViewController()
@@ -16,127 +17,72 @@ class DfsMazeGenerationViewController: UIViewController, ConfigurableType {// , 
         return viewController
     }
     
-    var config: MazeSizeGenerationConfigurations! = .init()
-    
-//    var dfs: DfsPathFinding?
-//
-//    lazy var maze: [[MazeUnit]] = {
-//        var units: [[MazeUnit]] = []
-//        var column: [MazeUnit] = []
-//        for x in 1...config.shortEdge() {
-//            for y in 1...config.longEdge() {
-//                column.append(.init(coordinate: .init(x: x, y: y)))
-//            }
-//            units.append(column)
-//            column = []
+//    private static func instantiate() -> Self {
+//        guard let dfsViewController = sceneStoryboard.instantiateInitialViewController() as? Self else {
+//            fatalError()
 //        }
-//        return units
-//    }()
-//    private var mazeStack: [MazeUnit] = []
+//        return dfsViewController
+//    }
+    
+    var mazeView: [[UIView]] = []
+    var maze: [[any MazeUnitType]] = []
+    
+    var config: MazeSizeGenerationConfigurations! = .init()
+    private lazy var finding = PathFindingAlgorithms(maze: self.maze, startPoint: startPoint, destinationPoint: endPoint, algo: .astar)
+    private lazy var generator = DfsMazeGenerator<CustomMazeUnit>(config: config)
+    private lazy var startPoint = generator.startPoint()
+    private lazy var endPoint = generator.endPoint()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        generator.delegate = self
+        generator.start()
         self.view.backgroundColor = .white
-//        generateAndDrawInitializeMaze(in: view, maze: &maze)
+    }
+}
+
+extension DfsMazeGenerationViewController: DfsMazeGenerationAlgorithmDelegate {
+    func didInit(maze: [[CustomMazeUnit]]) {
+        self.maze = maze
+        self.mazeView = generateAndDrawInitializeMaze(in: self.view, maze: maze)
     }
     
-//    private func generateRandomStartAndDestination() -> (start: Coordinate, destination: Coordinate) {
-//        var startPoint: Coordinate = .init(x: 0, y: 0)
-//        var destinationPoint: Coordinate = .init(x: 0, y: 0)
-//        while destinationPoint == startPoint {
-//            startPoint = .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<shortEdge()))
-//            destinationPoint = .init(x: Int.random(in: 0..<shortEdge()), y: Int.random(in: 0..<shortEdge()))
-//        }
-//
-//        return (startPoint, destinationPoint)
-//    }
-//
-//    private func startPathFinding() {
-//        let (startPoint, destinationPoint) = config.isRandomStartAndDestination ? generateRandomStartAndDestination() : (config.startPoint(), config.endPoint())
-//        maze[startPoint.x][startPoint.y].isStartPoint = true
-//        maze[startPoint.x][startPoint.y].view?.backgroundColor = .red
-//        maze[destinationPoint.x][destinationPoint.y].isDestination = true
-//        maze[destinationPoint.x][destinationPoint.y].view?.backgroundColor = .green
-//
-//        dfs = DfsPathFinding(mazeData: maze, startPoint: startPoint, destinationPoint: destinationPoint)
-//
-//        dfs?.onPointDidVisit = { [weak self] coordinate in
-//            if coordinate != startPoint && coordinate != destinationPoint {
-//                self?.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: 0, green: 0, blue: 1, alpha: 0.3)
-//            }
-//        }
-//
-//        dfs?.onFindedPath = { path in
-//            var idx = 0
-//            func draw() {
-//                guard idx < path.count else { return }
-//                let coordinate = path[idx]
-//                if coordinate != startPoint && coordinate != destinationPoint {
-//                    UIView.animate(withDuration: 0.002, delay: 0) {
-//                        self.maze[coordinate.x][coordinate.y].view?.backgroundColor = .init(red: CGFloat(Double(idx + 1) / Double(path.count)),
-//                                                                                            green: CGFloat(Double(path.count - idx) / Double(path.count)),
-//                                                                                            blue: 0, alpha: 1)
-//                    } completion: { _ in
-//                        idx += 1
-//                        draw()
-//                    }
-//                } else {
-//                    idx += 1
-//                    draw()
-//                }
-//            }
-//
-//            draw()
-//        }
-//
-//        dfs?.start()
-//    }
-//
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        // push start unit into stack and start recursive
-//        mazeStack.append(maze[0][0])
-//
-//        let timer = Timer.scheduledTimer(withTimeInterval: 0.0001, repeats: true) { [weak self] t in
-//            guard let self = self else { t.invalidate(); return }
-//            guard !self.mazeStack.isEmpty else {
-//                t.invalidate()
-//
-//                self.startPathFinding()
-//
-//                return
-//            }
-//
-//            guard let x = self.mazeStack.last?.x,
-//                  let y = self.mazeStack.last?.y else { t.invalidate(); return }
-//
-//            var available: [MazeUnit: Direction] = [:]
-//
-//            Direction.fourDirections.forEach { dir in
-//                if let unit = self.find(x: x, y: y, of: dir),
-////                   !unit.isMazeBorder,
-//                   !self.mazeStack.map({ $0.id }).contains(unit.id),
-//                   !unit.isVisited {
-//
-//                    available[unit] = dir
-//                }
-//            }
-//
-//            if !available.isEmpty {
-//                guard let unit = available.randomElement() else { t.invalidate(); return }
-//                self.mazeStack.append(unit.key)
-//                unit.key.view?.backgroundColor = .red
-//                self.breakWall(&self.maze, x: x, y: y, direction: unit.value)
-//                self.maze[x][y].view?.backgroundColor = .lightGray
-//            } else {
-//                self.maze[x][y].isVisited = true
-//                self.mazeStack.removeLast()
-//                self.maze[x][y].view?.backgroundColor = .white
-//            }
-//        }
-//    }
+    func didGeneratedUnit(unit: CustomMazeUnit) {
+        mazeView[unit.x][unit.y].layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        mazeView[unit.x][unit.y].drawBorder(unit, withColor: UIColor.black.cgColor)
+        mazeView[unit.x][unit.y].backgroundColor = .white
+    }
+    
+    func didFinishGenerated(maze: [[CustomMazeUnit]]) {
+        self.maze = maze
+        self.mazeView[startPoint.x][startPoint.y].backgroundColor = .red
+        self.mazeView[endPoint.x][endPoint.y].backgroundColor = .green
+        
+        finding.onPointDidVisit = { coordinate in
+            if coordinate == self.startPoint || coordinate == self.endPoint {
+                return
+            }
+            self.mazeView[coordinate.x][coordinate.y].backgroundColor = .orange.withAlphaComponent(0.2)
+        }
+        
+        finding.onFindedPath = { path in
+            path.enumerated().forEach { (offset, element) in
+                if offset == 0 || offset == path.count - 1 {
+                    return
+                }
+                UIView.animate(withDuration: 0.1, delay: 0.01 * Double(offset)) {
+                    self.mazeView[element.x][element.y].backgroundColor = UIColor.purple.withAlphaComponent(0.4)
+                }
+            }
+        }
+        
+        finding.start()
+    }
+    
+    func didPassThrough(unit: CustomMazeUnit) {
+        mazeView[unit.x][unit.y].drawBorder(unit, withColor: UIColor.black.cgColor)
+        mazeView[unit.x][unit.y].backgroundColor = .lightGray.withAlphaComponent(0.3)
+    }
 }
 
 //final class DfsMazeGenerator<MazeUnit: MazeUnitType>: MazeSizeConfigurable & MazeGenerationAlgorithm {

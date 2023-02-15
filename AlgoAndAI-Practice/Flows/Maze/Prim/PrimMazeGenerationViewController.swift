@@ -20,12 +20,14 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
         return viewController
     }
     
-    @IBOutlet weak var aboveContainerView: UIView!
-    @IBOutlet weak var belowContainerView: UIView!
+    private static func instantiate() -> Self {
+        guard let primViewController = sceneStoryboard.instantiateInitialViewController() as? Self else {
+            fatalError()
+        }
+        return primViewController
+    }
     
     var config: MazeSizeGenerationConfigurations! = .init()
-//    var pathFindingModule: PathFindingAlgorithms?
-//    var pathFindingModule2: PathFindingAlgorithms?
     private lazy var finding = PathFindingAlgorithms(maze: self.maze, startPoint: startPoint, destinationPoint: endPoint, algo: .astar)
     private lazy var generator = PrimMazeGenerator<CustomMazeUnit>(config: config)
     private lazy var startPoint = generator.startPoint()
@@ -34,10 +36,6 @@ class PrimMazeGenerationViewController: UIViewController, ConfigurableType, Maze
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         generator.delegate = self
         generator.start()
     }
@@ -57,14 +55,14 @@ extension PrimMazeGenerationViewController: MazeGenerationAlgorithmDelegate {
     
     func didFinishGenerated(maze: [[CustomMazeUnit]]) {
         self.maze = maze
-        self.mazeView[startPoint.x][startPoint.y].backgroundColor = .blue
-        self.mazeView[endPoint.x][endPoint.y].backgroundColor = .brown
+        self.mazeView[startPoint.x][startPoint.y].backgroundColor = .red
+        self.mazeView[endPoint.x][endPoint.y].backgroundColor = .green
         
         finding.onPointDidVisit = { coordinate in
             if coordinate == self.startPoint || coordinate == self.endPoint {
                 return
             }
-            self.mazeView[coordinate.x][coordinate.y].backgroundColor = .green
+            self.mazeView[coordinate.x][coordinate.y].backgroundColor = .orange.withAlphaComponent(0.2)
         }
         
         finding.onFindedPath = { path in
@@ -73,7 +71,7 @@ extension PrimMazeGenerationViewController: MazeGenerationAlgorithmDelegate {
                     return
                 }
                 UIView.animate(withDuration: 0.1, delay: 0.01 * Double(offset)) {
-                    self.mazeView[element.x][element.y].backgroundColor = .red
+                    self.mazeView[element.x][element.y].backgroundColor = UIColor.purple.withAlphaComponent(0.4)
                 }
             }
         }

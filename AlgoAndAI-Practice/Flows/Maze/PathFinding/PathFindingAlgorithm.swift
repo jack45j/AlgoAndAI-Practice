@@ -13,12 +13,19 @@ protocol PathFindingOutput {
     var onFindedPath: (([Coordinate]) -> Void)? { get set }
 }
 
+protocol PathFindingDelegate {
+    func didVisitUnit(_ coordinate: Coordinate)
+    func didFindPath(_ path: [Coordinate])
+}
+
 class PathFindingAlgorithms: PathFindingOutput {
     
     enum PathFindingAlgorithm {
         case dfs
         case astar
     }
+    
+    var delegate: PathFindingDelegate?
     
     var onPointDidVisit: ((Coordinate) -> Void)?
     var onFindedPath: (([Coordinate]) -> Void)?

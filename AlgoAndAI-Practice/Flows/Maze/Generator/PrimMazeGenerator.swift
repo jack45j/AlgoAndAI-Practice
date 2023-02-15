@@ -67,7 +67,7 @@ final class PrimMazeGenerator<MazeUnit: MazeUnitType>: MazeSizeConfigurable & Pr
                 fatalError()
             }
             
-//            print("randomWall: \(randomWall)")
+            //            print("randomWall: \(randomWall)")
             
             // 4. If only one of the cells that the wall divides is visited
             guard (maze[randomWall.x1][randomWall.y1].isVisited && maze[randomWall.x2][randomWall.y2].isVisited) == false else {

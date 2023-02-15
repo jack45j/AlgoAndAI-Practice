@@ -66,6 +66,7 @@
 		DB8C4607293493F8000D345D /* GaModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C4606293493F8000D345D /* GaModuleFactory.swift */; };
 		DB8C46092934941C000D345D /* GaModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */; };
 		DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */; };
+		DB9340F1299C80150052ACFB /* DfsMazeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9340F0299C80150052ACFB /* DfsMazeGenerator.swift */; };
 		DBA6A15E28DAFE540014D5D5 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15D28DAFE540014D5D5 /* Selection.swift */; };
 		DBA6A16028DB57B60014D5D5 /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6A15F28DB57B60014D5D5 /* Solution.swift */; };
 		DBCBEB9E29349C29005404BD /* GAViewControllerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCBEB9D29349C29005404BD /* GAViewControllerOutput.swift */; };
@@ -145,6 +146,7 @@
 		DB8C4606293493F8000D345D /* GaModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaModuleFactory.swift; sourceTree = "<group>"; };
 		DB8C46082934941C000D345D /* GaModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaModuleFactoryImp.swift; sourceTree = "<group>"; };
 		DB8DF36D28DA230800D38F09 /* UserDwfaults+additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDwfaults+additions.swift"; sourceTree = "<group>"; };
+		DB9340F0299C80150052ACFB /* DfsMazeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DfsMazeGenerator.swift; sourceTree = "<group>"; };
 		DBA6A15D28DAFE540014D5D5 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		DBA6A15F28DB57B60014D5D5 /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
 		DBCBEB9D29349C29005404BD /* GAViewControllerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAViewControllerOutput.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				4656EBBC293A2EF800DC6852 /* DFS */,
 				DB98049F294C0FC1003C1C95 /* Prim */,
 				46BA97DF29501A3600FB40F1 /* PathFinding */,
+				DB9340EF299C7D620052ACFB /* Generator */,
 			);
 			path = Maze;
 			sourceTree = "<group>";
@@ -368,12 +371,20 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		DB9340EF299C7D620052ACFB /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				46174EBD299BE053001928D7 /* PrimMazeGenerator.swift */,
+				DB9340F0299C80150052ACFB /* DfsMazeGenerator.swift */,
+			);
+			path = Generator;
+			sourceTree = "<group>";
+		};
 		DB98049F294C0FC1003C1C95 /* Prim */ = {
 			isa = PBXGroup;
 			children = (
 				4656EBEF2940E62900DC6852 /* PrimMazeGenerationViewController.swift */,
 				46BA97E229502F0B00FB40F1 /* PrimMazeGenerationViewController.storyboard */,
-				46174EBD299BE053001928D7 /* PrimMazeGenerator.swift */,
 			);
 			path = Prim;
 			sourceTree = "<group>";
@@ -584,6 +595,7 @@
 				DBD8D3B628D8764D00005C10 /* AcoViewController.swift in Sources */,
 				4656EBB7293A21F900DC6852 /* UIView+additions.swift in Sources */,
 				DB8DF36E28DA230800D38F09 /* UserDwfaults+additions.swift in Sources */,
+				DB9340F1299C80150052ACFB /* DfsMazeGenerator.swift in Sources */,
 				DBD8D3A428D6FADE00005C10 /* CGRect+additions.swift in Sources */,
 				46BA97DC294E356300FB40F1 /* PathFindingAlgorithm.swift in Sources */,
 				463CA15C292A2170009F6488 /* MainTableCoordinator.swift in Sources */,
@@ -761,6 +773,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 79399T3H3C;
@@ -778,6 +791,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "YochaStudio.TSP-Practice";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -792,6 +806,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 79399T3H3C;
@@ -809,6 +824,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "YochaStudio.TSP-Practice";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
